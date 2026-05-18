@@ -368,7 +368,7 @@ export default {
     }
 
     // ── GET / ─────────────────────────────────────────────────────────────────
-    if (request.method === "GET" && path === "") {
+    if (request.method === "GET" && (path === "/" || path === "")) {
       const [provider] = getProvider(env);
       return json({
         status:    "ok",
