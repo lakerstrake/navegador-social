@@ -18,7 +18,8 @@ const ACTIVIDAD_OPTIONS: { value: Actividad; icono: string; label: string; sub: 
   { value: "cuidador",   icono: "💛", label: "Cuidador/a no remunerado/a", sub: "Cuido familia sin pago" },
   { value: "temporal",   icono: "📋", label: "Contrato temporal", sub: "Obra, prestación, fijo" },
   { value: "estudiante", icono: "🎓", label: "Estudiante", sub: "Tiempo completo o parcial" },
-  { value: "formal",     icono: "💼", label: "Empleo formal", sub: "Contrato indefinido / empresa" },
+  { value: "formal",     icono: "💼", label: "Empleo formal",              sub: "Contrato indefinido / empresa" },
+  { value: "nini",      icono: "🔄", label: "NINI / Sin actividad",       sub: "No estudio ni trabajo actualmente" },
 ];
 
 const SALUD_OPTIONS: { value: EstadoSalud; icono: string; label: string; sub: string }[] = [

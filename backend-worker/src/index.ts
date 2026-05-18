@@ -18,7 +18,7 @@ export interface Env {
   OPENAI_API_KEY?:    string;
 }
 
-type Actividad  = "informal" | "cuidador" | "temporal" | "estudiante" | "formal";
+type Actividad  = "informal" | "cuidador" | "temporal" | "estudiante" | "formal" | "nini";
 type EstadoSalud = "subsidiado" | "beneficiario" | "cotizante" | "sin_afiliacion";
 type NivelRiesgo = "ROJO" | "AMARILLO" | "VERDE";
 
@@ -295,6 +295,7 @@ const ACTIVIDAD_LABELS: Record<string, string> = {
   cuidador:   "Cuidador/a no remunerado/a",
   temporal:   "Trabajo temporal / contrato",
   estudiante: "Estudiante",
+  nini:       "NINI (ni estudia ni trabaja)",
   formal:     "Empleado/a con contrato formal",
 };
 
@@ -401,7 +402,7 @@ export default {
         const body = await request.json() as TriajeRequest;
 
         // Validate
-        const actividadesValidas = ["informal","cuidador","temporal","estudiante","formal"];
+        const actividadesValidas = ["informal","cuidador","temporal","estudiante","formal","nini"];
         const saludValidas       = ["subsidiado","beneficiario","cotizante","sin_afiliacion"];
         if (!actividadesValidas.includes(body.actividad)) {
           return json({ detail: "actividad inválida" }, 422, origin);

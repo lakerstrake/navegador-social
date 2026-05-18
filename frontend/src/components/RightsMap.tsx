@@ -3,6 +3,14 @@
 import { cn } from "@/lib/utils";
 import { type TriajeResult, RIESGO_CONFIG } from "@/lib/triajeClient";
 
+const BETOWA_URL = "https://betowa.sena.edu.co/";
+
+function openLink(url: string) {
+  const isSena = /sena\.edu\.co/i.test(url);
+  window.open(url, "_blank", "noopener,noreferrer");
+  if (isSena) window.open(BETOWA_URL, "_blank", "noopener,noreferrer");
+}
+
 interface Props {
   result: TriajeResult;
   onReset: () => void;
@@ -83,14 +91,14 @@ export default function RightsMap({ result, onReset, onDeepConsult }: Props) {
               </div>
               {paso.url && (
                 <div className="border-t border-slate-100 px-4 py-2.5 bg-slate-50/50">
-                  <a href={paso.url} target="_blank" rel="noopener noreferrer"
+                  <button onClick={() => openLink(paso.url!)}
                     className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-blue-600 hover:text-blue-700 transition-colors">
                     {paso.accion}
                     <svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
                       <polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
                     </svg>
-                  </a>
+                  </button>
                 </div>
               )}
             </div>
@@ -103,8 +111,8 @@ export default function RightsMap({ result, onReset, onDeepConsult }: Props) {
             <h2 className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400 px-1">Programas disponibles para ti</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {result.programas.map((prog, i) => (
-                <a key={i} href={prog.url} target="_blank" rel="noopener noreferrer"
-                  className="flex items-start gap-3 bg-white rounded-2xl border border-slate-200 px-4 py-3.5 hover:border-blue-300 hover:shadow-md transition-all group fade-up"
+                <button key={i} onClick={() => openLink(prog.url)}
+                  className="flex items-start gap-3 bg-white rounded-2xl border border-slate-200 px-4 py-3.5 hover:border-blue-300 hover:shadow-md transition-all group fade-up text-left w-full"
                   style={{ animationDelay: `${i * 60}ms` }}>
                   <span className="text-2xl shrink-0">{prog.icono}</span>
                   <div className="flex-1 min-w-0">
@@ -114,7 +122,7 @@ export default function RightsMap({ result, onReset, onDeepConsult }: Props) {
                   <svg className="size-4 text-slate-300 group-hover:text-blue-500 shrink-0 mt-0.5 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M9 18l6-6-6-6" />
                   </svg>
-                </a>
+                </button>
               ))}
             </div>
           </div>

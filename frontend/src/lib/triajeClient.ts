@@ -1,7 +1,7 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:9000";
 
 // ── Tipos de entrada ──────────────────────────────────────────────────────────
-export type Actividad = "informal" | "cuidador" | "temporal" | "estudiante" | "formal";
+export type Actividad = "informal" | "cuidador" | "temporal" | "estudiante" | "formal" | "nini";
 export type EstadoSalud = "subsidiado" | "beneficiario" | "cotizante" | "sin_afiliacion";
 
 export interface TriajeRequest {
@@ -49,6 +49,7 @@ export const ACTIVIDAD_LABELS: Record<Actividad, string> = {
   temporal:   "Trabajo temporal / contrato",
   estudiante: "Estudiante",
   formal:     "Empleado/a con contrato formal",
+  nini:       "NINI / Sin actividad",
 };
 
 export const SALUD_LABELS: Record<EstadoSalud, string> = {
