@@ -1,0 +1,8 @@
+{
+  "name": "navegador-social",
+  "version": "3.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build"
+  }
+}
