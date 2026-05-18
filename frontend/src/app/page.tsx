@@ -12,7 +12,8 @@ import {
 import { cn } from "@/lib/utils";
 import SocialTriageForm from "@/components/SocialTriageForm";
 import RightsMap from "@/components/RightsMap";
-import { runTriaje, sendChat, type TriajeRequest, type TriajeResult } from "@/lib/triajeClient";
+import { runTriaje, sendChat, type TriajeRequest } from "@/lib/triajeClient";
+import { useDiagnostico } from "@/hooks/useDiagnostico";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:9000";
 type Screen    = "triaje" | "mapa" | "consultas";
@@ -134,13 +135,13 @@ const bentoItem = {
 // ── Markdown renderer ──────────────────────────────────────────────────────────
 function Texto({ texto, dark = false }: { texto: string; dark?: boolean }) {
   return (
-    <div className={cn("space-y-1.5 text-[13.5px] leading-[1.72] tracking-[-0.005em]", dark ? "text-blue-50" : "text-slate-600")}>
+    <div className={cn("space-y-2 text-[13.5px] leading-relaxed tracking-[-0.005em]", dark ? "text-blue-50" : "text-slate-700")}>
       {texto.split("\n").map((l, i) => {
         if (!l.trim()) return <div key={i} className="h-1" />;
         const html = l
           .replace(/\*\*(.*?)\*\*/g, `<strong class="${dark ? "text-white" : "text-slate-900"} font-semibold">$1</strong>`)
           .replace(/^[•\-]\s/, "• ");
-        return <p key={i} dangerouslySetInnerHTML={{ __html: html }} />;
+        return <p key={i} className="leading-relaxed" dangerouslySetInnerHTML={{ __html: html }} />;
       })}
     </div>
   );
@@ -168,15 +169,15 @@ function CopyBtn({ texto }: { texto: string }) {
 // ── Bento Grid ─────────────────────────────────────────────────────────────────
 function BentoGrid({ onQuestion }: { onQuestion: (q: string) => void }) {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6">
-      <div className="mb-6">
-        <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
+    <div className="max-w-4xl mx-auto px-3 sm:px-4 py-5 sm:py-6">
+      <div className="mb-5 sm:mb-6">
+        <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">
           Consultas profundas
         </p>
-        <h2 className="text-[26px] font-extrabold text-slate-900 mt-1 tracking-tight leading-[1.15]">
+        <h2 className="text-[22px] sm:text-[26px] font-extrabold text-slate-900 mt-1 tracking-tight leading-[1.15]">
           ¿En qué puedo ayudarte?
         </h2>
-        <p className="text-[13.5px] text-slate-400 mt-1.5 font-normal leading-snug">
+        <p className="text-[13px] sm:text-[13.5px] text-slate-600 mt-1.5 font-normal leading-snug">
           Selecciona un área o escribe tu pregunta directamente
         </p>
       </div>
@@ -217,12 +218,12 @@ function BentoGrid({ onQuestion }: { onQuestion: (q: string) => void }) {
                   key={p}
                   onClick={() => onQuestion(p)}
                   className={cn(
-                    "w-full text-left text-[12px] text-slate-500 leading-snug rounded-xl px-3 py-2",
-                    "hover:text-slate-800 hover:bg-slate-50 border border-transparent hover:border-slate-100",
-                    "transition-all flex items-start gap-2 group/q font-[450]"
+                    "w-full min-h-[40px] text-left text-[12.5px] sm:text-[12px] text-slate-600 leading-relaxed rounded-xl px-3 py-2.5",
+                    "hover:text-slate-900 hover:bg-slate-50 active:bg-slate-100 border border-transparent hover:border-slate-100",
+                    "transition-all flex items-start gap-2 group/q font-medium"
                   )}
                 >
-                  <ArrowRight className="size-3 mt-0.5 text-slate-300 group-hover/q:text-blue-400 shrink-0 transition-colors" />
+                  <ArrowRight className="size-3 mt-1 text-slate-400 group-hover/q:text-indigo-500 shrink-0 transition-colors" />
                   <span>{p}</span>
                 </button>
               ))}
@@ -264,7 +265,7 @@ function ChatMessages({
           <motion.div key={m.id} initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.2 }}
             className="flex justify-end items-end gap-2.5">
-            <div className="flex flex-col items-end gap-1 max-w-[76%]">
+            <div className="flex flex-col items-end gap-1 max-w-[82%] sm:max-w-[76%]">
               <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-2xl rounded-br-sm px-4 py-3 shadow-md shadow-blue-600/20">
                 <Texto texto={m.texto} dark />
               </div>
@@ -281,7 +282,7 @@ function ChatMessages({
             <div className="size-8 shrink-0 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-md shadow-blue-500/20 mb-4">
               <Shield className="size-3.5 text-white" />
             </div>
-            <div className="flex flex-col gap-1 max-w-[76%]">
+            <div className="flex flex-col gap-1 max-w-[82%] sm:max-w-[76%]">
               <div className="bg-white border border-slate-200/80 rounded-2xl rounded-bl-sm px-4 py-3.5 shadow-sm hover:shadow-md transition-shadow">
                 <Texto texto={m.texto} />
               </div>
@@ -365,16 +366,17 @@ function MagicCommandBar({
               if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); onSend(input); }
             }}
             placeholder="Consulta sobre pensiones, salud, derechos laborales, BEPS, víctimas…"
-            className="flex-1 resize-none bg-transparent text-[13.5px] text-slate-800 placeholder:text-slate-400 focus:outline-none leading-relaxed min-h-[34px] max-h-36 py-0.5"
+            className="flex-1 resize-none bg-transparent text-[14px] sm:text-[13.5px] text-slate-800 placeholder:text-slate-400 focus:outline-none leading-relaxed min-h-[36px] max-h-36 py-0.5"
           />
           <motion.button
             onClick={() => onSend(input)}
             disabled={!input.trim() || loading}
             whileTap={{ scale: 0.88 }}
+            aria-label="Enviar consulta"
             className={cn(
-              "size-9 rounded-xl flex items-center justify-center shrink-0 mb-0.5 transition-colors duration-150",
+              "size-11 sm:size-9 rounded-xl flex items-center justify-center shrink-0 mb-0.5 transition-colors duration-150",
               input.trim() && !loading
-                ? "bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-500/30"
+                ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-500/30"
                 : "bg-slate-100 text-slate-300 cursor-not-allowed"
             )}
           >
@@ -394,8 +396,7 @@ function MagicCommandBar({
 
 // ═════════════════════════════════════════════════════════════════════════════
 export default function Home() {
-  const [screen,        setScreen]        = useState<Screen>("triaje");
-  const [triajeResult,  setTriajeResult]  = useState<TriajeResult | null>(null);
+  const { result: triajeResult, setResult: setTriajeResult, screen, setScreen } = useDiagnostico();
   const [triajeLoading, setTriajeLoading] = useState(false);
   const [triajeError,   setTriajeError]   = useState<string | null>(null);
   const [mensajes,      setMensajes]      = useState<Mensaje[]>([]);
@@ -488,7 +489,7 @@ export default function Home() {
           FLOATING SIDEBAR
       ══════════════════════════════════════════════════════════ */}
       <aside className={cn(
-        "fixed lg:relative z-30 lg:z-auto inset-y-0 left-0 flex flex-col w-60 shrink-0",
+        "fixed lg:relative z-30 lg:z-auto inset-y-0 left-0 flex flex-col w-[78vw] max-w-[280px] lg:w-60 shrink-0",
         "bg-white/90 backdrop-blur-xl border-r border-slate-200/60",
         "shadow-xl shadow-slate-900/5",
         "transition-transform duration-[280ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]",
@@ -639,12 +640,13 @@ export default function Home() {
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
 
         {/* Glassmorphism topbar */}
-        <header className="shrink-0 h-12 flex items-center gap-3 px-4 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+        <header className="shrink-0 h-14 sm:h-12 flex items-center gap-3 px-3 sm:px-4 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden size-8 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-colors shrink-0"
+            aria-label="Abrir menú"
+            className="lg:hidden size-9 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-50 active:bg-slate-100 transition-colors shrink-0"
           >
-            <Menu className="size-4 text-slate-500" />
+            <Menu className="size-4 text-slate-600" />
           </button>
 
           {/* Breadcrumb nav */}
@@ -755,14 +757,16 @@ export default function Home() {
                       {triajeResult.nivel_riesgo === "ROJO" ? "🔴" :
                        triajeResult.nivel_riesgo === "AMARILLO" ? "🟡" : "🟢"}
                     </span>
-                    <span className="text-slate-700 flex-1 truncate">
-                      <strong>Diagnóstico:</strong> {triajeResult.titulo}
+                    <span className="text-slate-700 flex-1 min-w-0 truncate">
+                      <strong className="hidden sm:inline">Diagnóstico:</strong> {triajeResult.titulo}
                     </span>
                     <button
                       onClick={() => setScreen("mapa")}
-                      className="flex items-center gap-1 font-semibold text-blue-600 hover:text-blue-700 shrink-0 transition-colors"
+                      className="flex items-center gap-1 font-semibold text-indigo-700 hover:text-indigo-900 shrink-0 transition-colors min-h-[32px]"
                     >
-                      Ver mapa <ArrowRight className="size-3" />
+                      <span className="hidden sm:inline">Ver mapa</span>
+                      <span className="sm:hidden">Mapa</span>
+                      <ArrowRight className="size-3" />
                     </button>
                   </motion.div>
                 )}

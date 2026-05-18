@@ -1,32 +1,69 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Hammer, HeartHandshake, ClipboardList, GraduationCap, Briefcase, RefreshCw,
+  Stethoscope, Users, ShieldCheck, AlertCircle, Check, Minus, Plus, MapPinned,
+  type LucideIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   type TriajeRequest, type Actividad, type EstadoSalud,
   ACTIVIDAD_LABELS, SALUD_LABELS,
 } from "@/lib/triajeClient";
 
+// ── Loading cycler — mensajes empáticos ──────────────────────────────────────
+const LOADING_MESSAGES = [
+  "Organizando la normativa a tu favor…",
+  "Identificando oportunidades de protección…",
+  "Trazando tu ruta de derechos…",
+];
+
+function LoadingCycler() {
+  const [idx, setIdx] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setIdx(i => (i + 1) % LOADING_MESSAGES.length), 1500);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <span className="relative inline-flex h-[1.2em] overflow-hidden items-center">
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={idx}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.32, ease: [0.25, 0.1, 0.25, 1] }}
+          className="block whitespace-nowrap"
+        >
+          {LOADING_MESSAGES[idx]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
+
 interface Props {
   onSubmit: (data: TriajeRequest) => Promise<void>;
   loading: boolean;
 }
 
-// ── Opciones de actividad con iconos y descripción corta ─────────────────────
-const ACTIVIDAD_OPTIONS: { value: Actividad; icono: string; label: string; sub: string }[] = [
-  { value: "informal",   icono: "🔨", label: "Informal / por días", sub: "Rebusque, ventas, oficios" },
-  { value: "cuidador",   icono: "💛", label: "Cuidador/a no remunerado/a", sub: "Cuido familia sin pago" },
-  { value: "temporal",   icono: "📋", label: "Contrato temporal", sub: "Obra, prestación, fijo" },
-  { value: "estudiante", icono: "🎓", label: "Estudiante", sub: "Tiempo completo o parcial" },
-  { value: "formal",     icono: "💼", label: "Empleo formal",              sub: "Contrato indefinido / empresa" },
-  { value: "nini",      icono: "🔄", label: "NINI / Sin actividad",       sub: "No estudio ni trabajo actualmente" },
+// ── Opciones de actividad — íconos Lucide empáticos ──────────────────────────
+const ACTIVIDAD_OPTIONS: { value: Actividad; Icon: LucideIcon; label: string; sub: string }[] = [
+  { value: "informal",   Icon: Hammer,         label: "Trabajo informal",          sub: "Rebusque, ventas, oficios por día" },
+  { value: "cuidador",   Icon: HeartHandshake, label: "Cuidador/a no remunerado/a", sub: "Cuido familia sin recibir pago" },
+  { value: "temporal",   Icon: ClipboardList,  label: "Contrato temporal",          sub: "Obra labor, prestación, fijo" },
+  { value: "estudiante", Icon: GraduationCap,  label: "Estudiante",                 sub: "Tiempo completo o parcial" },
+  { value: "formal",     Icon: Briefcase,      label: "Empleo formal",              sub: "Contrato indefinido en empresa" },
+  { value: "nini",       Icon: RefreshCw,      label: "Buscando mi próximo paso",   sub: "Por ahora no estudio ni trabajo" },
 ];
 
-const SALUD_OPTIONS: { value: EstadoSalud; icono: string; label: string; sub: string }[] = [
-  { value: "subsidiado",     icono: "🏥", label: "Sisbén Subsidiado", sub: "El Estado paga mi salud" },
-  { value: "beneficiario",   icono: "👨‍👩‍👧", label: "Beneficiario de familiar", sub: "Estoy en el seguro de otro" },
-  { value: "cotizante",      icono: "✅", label: "Cotizante Contributivo", sub: "Pago (o me descuentan) EPS" },
-  { value: "sin_afiliacion", icono: "⚠️", label: "Sin afiliación", sub: "No tengo salud activa" },
+const SALUD_OPTIONS: { value: EstadoSalud; Icon: LucideIcon; label: string; sub: string }[] = [
+  { value: "subsidiado",     Icon: Stethoscope,  label: "Sisbén · Subsidiado",       sub: "El Estado cubre mi salud" },
+  { value: "beneficiario",   Icon: Users,        label: "Beneficiario familiar",     sub: "Estoy en el plan de otro" },
+  { value: "cotizante",      Icon: ShieldCheck,  label: "Cotizante contributivo",    sub: "Pago (o me descuentan) EPS" },
+  { value: "sin_afiliacion", Icon: AlertCircle,  label: "Sin afiliación activa",     sub: "Aún no tengo cobertura" },
 ];
 
 const PASOS = ["Actividad", "Salud", "Ahorro", "Resumen"] as const;
@@ -61,14 +98,14 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
 
         {/* ── Hero ── */}
         <div className="text-center">
-          <div className="inline-flex items-center gap-2 bg-blue-100 border border-blue-200 text-blue-700 text-[11.5px] font-semibold px-3 py-1.5 rounded-full mb-4">
-            <span>🇨🇴</span>
-            <span>Diagnóstico gratuito · Basado en Ley 100/1993</span>
+          <div className="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 text-indigo-700 text-[11.5px] font-semibold px-3 py-1.5 rounded-full mb-4">
+            <MapPinned className="size-3.5" strokeWidth={2} />
+            <span>Diagnóstico gratuito · Normativa colombiana</span>
           </div>
-          <h1 className="text-[24px] sm:text-[28px] font-extrabold text-slate-900 tracking-tight leading-[1.15] mb-2">
-            Conoce tu <span className="text-blue-700">Mapa de Derechos</span>
+          <h1 className="text-[26px] sm:text-[30px] font-extrabold text-slate-900 tracking-tight leading-[1.15] mb-2">
+            Descubre tu <span className="text-indigo-700">Ruta de Derechos</span>
           </h1>
-          <p className="text-slate-500 text-[14px] max-w-md mx-auto leading-relaxed font-normal">
+          <p className="text-slate-600 text-[14px] max-w-md mx-auto leading-relaxed font-normal">
             4 preguntas · menos de 2 minutos · orientación personalizada sobre
             pensiones, BEPS y protección social.
           </p>
@@ -101,27 +138,38 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
                 ¿Cuál es tu actividad principal?
               </h2>
               <div className="space-y-2">
-                {ACTIVIDAD_OPTIONS.map((o) => (
-                  <button
-                    key={o.value}
-                    onClick={() => setForm(f => ({ ...f, actividad: o.value }))}
-                    className={cn(
-                      "w-full flex items-center gap-3.5 rounded-xl px-4 py-3.5 border text-left transition-all",
-                      form.actividad === o.value
-                        ? "bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-600/20"
-                        : "bg-white border-slate-200 hover:border-blue-300 hover:bg-blue-50 text-slate-700"
-                    )}
-                  >
-                    <span className="text-[22px] shrink-0">{o.icono}</span>
-                    <div>
-                      <p className={cn("text-[13.5px] font-semibold", form.actividad === o.value ? "text-white" : "text-slate-800")}>{o.label}</p>
-                      <p className={cn("text-[11.5px]", form.actividad === o.value ? "text-blue-200" : "text-slate-400")}>{o.sub}</p>
-                    </div>
-                    {form.actividad === o.value && (
-                      <svg className="ml-auto size-5 shrink-0 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
-                    )}
-                  </button>
-                ))}
+                {ACTIVIDAD_OPTIONS.map((o) => {
+                  const selected = form.actividad === o.value;
+                  return (
+                    <button
+                      key={o.value}
+                      onClick={() => setForm(f => ({ ...f, actividad: o.value }))}
+                      aria-pressed={selected}
+                      className={cn(
+                        "w-full min-h-[56px] flex items-center gap-3.5 rounded-xl px-4 py-3.5 border-2 text-left transition-all",
+                        selected
+                          ? "bg-indigo-50/60 border-indigo-600 shadow-sm shadow-indigo-600/10 ring-1 ring-indigo-600/10"
+                          : "bg-white border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/30"
+                      )}
+                    >
+                      <span className={cn(
+                        "size-10 rounded-xl flex items-center justify-center shrink-0 transition-colors",
+                        selected ? "bg-indigo-600 text-white" : "bg-slate-100 text-slate-600"
+                      )}>
+                        <o.Icon className="size-5" strokeWidth={1.75} />
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <p className={cn("text-[14px] font-semibold leading-tight tracking-tight", selected ? "text-indigo-900" : "text-slate-800")}>{o.label}</p>
+                        <p className={cn("text-[12px] mt-0.5 leading-snug font-medium", selected ? "text-indigo-700" : "text-slate-600")}>{o.sub}</p>
+                      </div>
+                      {selected && (
+                        <span className="ml-auto size-6 rounded-full bg-indigo-600 flex items-center justify-center shrink-0 shadow-sm">
+                          <Check className="size-3.5 text-white" strokeWidth={3} />
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -136,27 +184,38 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
                 ¿Cómo estás afiliado/a a salud?
               </h2>
               <div className="space-y-2">
-                {SALUD_OPTIONS.map((o) => (
-                  <button
-                    key={o.value}
-                    onClick={() => setForm(f => ({ ...f, salud: o.value }))}
-                    className={cn(
-                      "w-full flex items-center gap-3.5 rounded-xl px-4 py-3.5 border text-left transition-all",
-                      form.salud === o.value
-                        ? "bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-600/20"
-                        : "bg-white border-slate-200 hover:border-blue-300 hover:bg-blue-50 text-slate-700"
-                    )}
-                  >
-                    <span className="text-[22px] shrink-0">{o.icono}</span>
-                    <div>
-                      <p className={cn("text-[13.5px] font-semibold", form.salud === o.value ? "text-white" : "text-slate-800")}>{o.label}</p>
-                      <p className={cn("text-[11.5px]", form.salud === o.value ? "text-blue-200" : "text-slate-400")}>{o.sub}</p>
-                    </div>
-                    {form.salud === o.value && (
-                      <svg className="ml-auto size-5 shrink-0 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
-                    )}
-                  </button>
-                ))}
+                {SALUD_OPTIONS.map((o) => {
+                  const selected = form.salud === o.value;
+                  return (
+                    <button
+                      key={o.value}
+                      onClick={() => setForm(f => ({ ...f, salud: o.value }))}
+                      aria-pressed={selected}
+                      className={cn(
+                        "w-full min-h-[56px] flex items-center gap-3.5 rounded-xl px-4 py-3.5 border-2 text-left transition-all",
+                        selected
+                          ? "bg-indigo-50/60 border-indigo-600 shadow-sm shadow-indigo-600/10 ring-1 ring-indigo-600/10"
+                          : "bg-white border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/30"
+                      )}
+                    >
+                      <span className={cn(
+                        "size-10 rounded-xl flex items-center justify-center shrink-0 transition-colors",
+                        selected ? "bg-indigo-600 text-white" : "bg-slate-100 text-slate-600"
+                      )}>
+                        <o.Icon className="size-5" strokeWidth={1.75} />
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <p className={cn("text-[14px] font-semibold leading-tight tracking-tight", selected ? "text-indigo-900" : "text-slate-800")}>{o.label}</p>
+                        <p className={cn("text-[12px] mt-0.5 leading-snug font-medium", selected ? "text-indigo-700" : "text-slate-600")}>{o.sub}</p>
+                      </div>
+                      {selected && (
+                        <span className="ml-auto size-6 rounded-full bg-indigo-600 flex items-center justify-center shrink-0 shadow-sm">
+                          <Check className="size-3.5 text-white" strokeWidth={3} />
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -169,7 +228,7 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1">Pregunta 3 de 4</p>
                 <h2 className="text-[17px] font-bold text-slate-800 mb-1">¿Cuánto puedes ahorrar al mes?</h2>
-                <p className="text-slate-500 text-[12.5px] mb-5">Mueve el control para ajustar el monto.</p>
+                <p className="text-slate-600 text-[12.5px] mb-5">Mueve el control para ajustar el monto.</p>
 
                 {/* Valor mostrado */}
                 <div className="text-center mb-4">
@@ -215,16 +274,22 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
               {/* Edad */}
               <div className="border-t border-slate-100 pt-5">
                 <h3 className="text-[15px] font-bold text-slate-800 mb-1">¿Cuántos años tienes?</h3>
-                <p className="text-slate-500 text-[12.5px] mb-4">Tu edad define los programas disponibles.</p>
+                <p className="text-slate-600 text-[12.5px] mb-4">Tu edad define los programas disponibles.</p>
                 <div className="flex items-center gap-3">
                   <button onClick={() => setForm(f => ({ ...f, edad: Math.max(14, (f.edad ?? 25) - 1) }))}
-                    className="size-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 text-xl font-bold transition-colors">−</button>
+                    aria-label="Disminuir edad"
+                    className="min-h-[44px] min-w-[44px] rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 transition-colors">
+                    <Minus className="size-4" strokeWidth={2.5} />
+                  </button>
                   <div className="flex-1 text-center">
-                    <span className="text-[36px] font-bold text-blue-700">{form.edad ?? 25}</span>
-                    <span className="text-slate-400 text-[14px] ml-1">años</span>
+                    <span className="text-[36px] font-bold text-indigo-900 tracking-tight">{form.edad ?? 25}</span>
+                    <span className="text-slate-500 text-[14px] ml-1 font-medium">años</span>
                   </div>
                   <button onClick={() => setForm(f => ({ ...f, edad: Math.min(80, (f.edad ?? 25) + 1) }))}
-                    className="size-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 text-xl font-bold transition-colors">+</button>
+                    aria-label="Aumentar edad"
+                    className="min-h-[44px] min-w-[44px] rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 transition-colors">
+                    <Plus className="size-4" strokeWidth={2.5} />
+                  </button>
                 </div>
               </div>
 
@@ -233,7 +298,7 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-[14px] font-semibold text-slate-800">¿Realizas trabajo de cuidado?</p>
-                    <p className="text-[12px] text-slate-500">Cuidar hijos, adultos mayores o personas con discapacidad</p>
+                    <p className="text-[12px] text-slate-600">Cuidar hijos, adultos mayores o personas con discapacidad</p>
                   </div>
                   <button
                     onClick={() => setForm(f => ({ ...f, cuidador: !f.cuidador }))}
@@ -280,7 +345,7 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
                   <div key={r.label} className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-2.5">
                     <div className="flex items-center gap-2.5">
                       <span className="text-lg">{r.icono}</span>
-                      <span className="text-[12.5px] text-slate-500">{r.label}</span>
+                      <span className="text-[12.5px] text-slate-600">{r.label}</span>
                     </div>
                     <span className="text-[13px] font-semibold text-slate-800">{r.value}</span>
                   </div>
@@ -300,7 +365,7 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
         {/* ── Navegación ── */}
         <div className="flex gap-3">
           {pasoIdx > 0 && (
-            <button onClick={back} className="flex-1 sm:flex-none sm:w-32 py-3 rounded-2xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-semibold text-[13.5px] transition-colors">
+            <button onClick={back} className="flex-1 sm:flex-none sm:w-32 min-h-[48px] rounded-2xl border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 font-semibold text-[13.5px] transition-colors">
               ← Atrás
             </button>
           )}
@@ -310,9 +375,9 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
               onClick={next}
               disabled={!canContinue}
               className={cn(
-                "flex-1 py-3 rounded-2xl font-bold text-[14px] transition-all",
+                "flex-1 min-h-[48px] rounded-2xl font-bold text-[14.5px] tracking-tight transition-all",
                 canContinue
-                  ? "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white shadow-lg shadow-blue-600/25 active:scale-[0.98]"
+                  ? "bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white shadow-lg shadow-indigo-600/25 active:scale-[0.98]"
                   : "bg-slate-100 text-slate-400 cursor-not-allowed"
               )}
             >
@@ -322,16 +387,17 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
             <button
               onClick={handleSubmit}
               disabled={loading}
-              className="flex-1 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-500 hover:to-blue-700 text-white font-bold text-[14.5px] shadow-xl shadow-blue-900/25 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60"
+              className="flex-1 min-h-[52px] rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-800 hover:from-indigo-500 hover:to-indigo-700 text-white font-bold text-[14.5px] shadow-xl shadow-indigo-900/25 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-70"
             >
               {loading ? (
                 <>
-                  <svg className="size-5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg>
-                  Analizando tu situación…
+                  <svg className="size-5 animate-spin shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg>
+                  <LoadingCycler />
                 </>
               ) : (
                 <>
-                  🗺️ Ver mi Mapa de Derechos
+                  <MapPinned className="size-5" strokeWidth={2} />
+                  Ver mi Ruta de Derechos
                 </>
               )}
             </button>

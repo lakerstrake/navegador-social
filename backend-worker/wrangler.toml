@@ -5,10 +5,4 @@ compatibility_flags = ["nodejs_compat"]
 
 # Secretos: agrégalos con `wrangler secret put GROQ_API_KEY`
 # O en el dashboard de Cloudflare → Workers → Settings → Variables
-
 # Desarrollo local: crea un archivo .dev.vars (ver .dev.vars.example)
-
-[[routes]]
-# Opcional: dominio personalizado
-# pattern = "api.tudominio.com/*"
-# zone_name = "tudominio.com"
