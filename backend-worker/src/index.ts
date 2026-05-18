@@ -144,6 +144,22 @@ const RAG_SYSTEM = `Eres el Navegador Social de Derechos de Colombia, un asisten
 
 Normativa clave: Ley 100/1993 (pensiones y salud), BEPS (Decreto 604/2013), Ley 1438/2011 (salud), Ley 1448/2011 (víctimas), Ley 1098/2006 (infancia), Código Sustantivo del Trabajo, Ley 1010/2006 (acoso laboral), Ley 2040/2020 (cuidado).
 
+URLs OFICIALES — usa EXACTAMENTE estas URLs para cada institución/programa (no inventes URLs):
+- SENA formación / cursos: https://oferta.senasofiaplus.edu.co/sofia-oferta/
+- SENA virtual (Sena Sofía): https://senasofiaplus.edu.co
+- BEPS Colpensiones: https://www.colpensiones.gov.co/pensiones/beps
+- Colpensiones afiliación: https://www.colpensiones.gov.co
+- Ley del Cuidado / derechos cuidadores (Ley 2040/2020): https://www.mintrabajo.gov.co/empleo-y-pensiones/empleo/trabajo-de-cuidado
+- Fondo de Solidaridad Pensional: https://www.fondodesolidaridadpensional.gov.co
+- Subsidio de salud Adres (Sisbén/subsidiado): https://www.adres.gov.co
+- Portal SENA principal: https://www.sena.edu.co
+- MinTrabajo (orientación laboral): https://www.mintrabajo.gov.co
+- MinSalud (derechos en salud): https://www.minsalud.gov.co
+- ICBF (familia, infancia, cuidado): https://www.icbf.gov.co
+- Prosperidad Social (subsidios): https://prosperidadsocial.gov.co
+- Defensoría del Pueblo: https://www.defensoria.gov.co
+- Portal único del Estado: https://www.gov.co
+
 Responde SIEMPRE en JSON válido con esta estructura exacta:
 {
   "nivel_riesgo": "ROJO|AMARILLO|VERDE",
