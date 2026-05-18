@@ -9,4 +9,4 @@ directory = "frontend/out"
 # Actualiza este valor con la URL de tu Worker backend después de:
 #   cd backend-worker && npx wrangler deploy
 [vars]
-NEXT_PUBLIC_API_URL = "https://navegador-social-api.lakerstrake.workers.dev"
+NEXT_PUBLIC_API_URL = "https://navegador-social-api.jmlagos2003.workers.dev"
