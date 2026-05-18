@@ -1,11 +1,12 @@
 name = "navegador-social"
 compatibility_date = "2024-09-23"
 
-# Cloudflare Pages lee este campo automáticamente como directorio de salida
-pages_build_output_dir = "frontend/out"
+# Cloudflare Workers + Assets: sirve el frontend estático desde el edge
+[assets]
+directory = "frontend/out"
 
-# Variable disponible en tiempo de build (Next.js la incrusta en el bundle)
-# Actualiza esta URL después de desplegar el Worker:
+# Variable de build: Next.js la incrusta en el bundle estático
+# Actualiza este valor con la URL de tu Worker backend después de:
 #   cd backend-worker && npx wrangler deploy
 [vars]
 NEXT_PUBLIC_API_URL = "https://navegador-social-api.lakerstrake.workers.dev"
