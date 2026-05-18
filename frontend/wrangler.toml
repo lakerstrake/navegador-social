@@ -1,0 +1,8 @@
+name = "navegador-social-frontend"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "out"
+
+# Variables de entorno de producción
+# Ponlas también en el dashboard de Cloudflare Pages → Settings → Environment variables
+[vars]
+NEXT_PUBLIC_API_URL = "https://navegador-social-api.TU_SUBDOMINIO.workers.dev"

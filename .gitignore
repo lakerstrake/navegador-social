@@ -1,0 +1,49 @@
+# ── Entornos y secretos ───────────────────────────────────────────────────────
+.env
+.env.*
+!.env.*.example
+!.env.example
+*.env
+.dev.vars          # Cloudflare Worker local secrets
+
+# ── Python ────────────────────────────────────────────────────────────────────
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.so
+uvicorn.log
+uvicorn_err.log
+*.dev.err.log
+*.dev.out.log
+
+# ── Node / Next.js ────────────────────────────────────────────────────────────
+node_modules/
+.next/
+out/
+.vercel/
+.wrangler/
+
+# ── Cloudflare ────────────────────────────────────────────────────────────────
+.wrangler/
+worker-dist/
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editores ──────────────────────────────────────────────────────────────────
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+*.log
+logs/

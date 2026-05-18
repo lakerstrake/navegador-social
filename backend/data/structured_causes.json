@@ -1,0 +1,282 @@
+{
+  "version": "2.0",
+  "fuente": "Árbol de Problemas - Vulnerabilidad Previsional Jóvenes de Kennedy",
+  "causes": [
+    {
+      "id": "informal_zero_savings",
+      "category": "laboral",
+      "label": "Informalidad sin capacidad de ahorro",
+      "triggers": { "actividad": ["informal"], "ahorro_max": 30000, "salud": ["subsidiado", "sin_afiliacion"] },
+      "description": "Trabajo informal o por días sin ingresos suficientes para cotizar al sistema pensional.",
+      "impact": "Sin cotizaciones al sistema pensional. Alta probabilidad de llegar a la vejez sin pensión ni ahorros.",
+      "risk_level": "ROJO",
+      "risk_score": 10,
+      "remedy": {
+        "descripcion": "Aunque no puedas cotizar pensión completa, puedes comenzar con BEPS desde $5.000/mes con subsidio del Estado del 20%.",
+        "paso1": {
+          "titulo": "Abre tu cuenta BEPS ahora",
+          "descripcion": "Los Beneficios Económicos Periódicos (BEPS) son para personas como tú que trabajan informalmente. Ahorras lo que puedas (mínimo $5.000/mes) y el Estado añade el 20% adicional. Al llegar a los 65 años, recibes una renta vitalicia.",
+          "accion": "Registrarse en BEPS",
+          "url": "https://www.beps.gov.co",
+          "icono": "🏦"
+        },
+        "paso2": {
+          "titulo": "Solicita el Fondo de Solidaridad Pensional",
+          "descripcion": "Si tienes ingresos entre 1 y 2 SMMLV ($1.300.000 - $2.600.000), el Fondo de Solidaridad Pensional puede subsidiar hasta el 50% de tu cotización mensual. Postúlate en Colpensiones.",
+          "accion": "Consultar Fondo Solidaridad",
+          "url": "https://www.colpensiones.gov.co/proteccion-para-la-vejez/",
+          "icono": "🤝"
+        },
+        "paso3": {
+          "titulo": "Regístrate al SENA para mejorar ingresos",
+          "descripcion": "Formarte con el SENA en habilidades técnicas puede darte acceso a empleos formales donde el empleador cotiza por ti. Los cursos son gratuitos y hay modalidad virtual.",
+          "accion": "Ver oferta SENA",
+          "url": "https://www.sena.edu.co",
+          "icono": "🎓"
+        }
+      },
+      "programs": [
+        { "nombre": "BEPS", "descripcion": "Beneficios Económicos Periódicos – ahorro con subsidio del 20% estatal", "url": "https://www.beps.gov.co", "icono": "🏦" },
+        { "nombre": "Fondo de Solidaridad Pensional", "descripcion": "Subsidio de cotización para trabajadores de bajos ingresos", "url": "https://www.colpensiones.gov.co", "icono": "🤝" },
+        { "nombre": "SENA", "descripcion": "Formación gratuita para acceder a empleos formales", "url": "https://www.sena.edu.co", "icono": "🎓" }
+      ],
+      "legal_basis": ["Ley 100/1993 Art. 25 y 26 (BEPS)", "Decreto 604/2013 (reglamento BEPS)", "Ley 100/1993 Art. 27 (Fondo Solidaridad)"],
+      "alerta": "Sin cotizaciones durante la juventud, la pensión de vejez es casi imposible. BEPS es tu red de seguridad."
+    },
+    {
+      "id": "informal_some_savings",
+      "category": "laboral",
+      "label": "Informalidad con capacidad de ahorro parcial",
+      "triggers": { "actividad": ["informal", "temporal"], "ahorro_min": 30001, "ahorro_max": 100000 },
+      "description": "Trabajo informal o temporal con ingresos moderados que permiten algún ahorro.",
+      "impact": "Podría cotizar pero no lo hace. Riesgo de desprotección en vejez si no formaliza el ahorro.",
+      "risk_level": "AMARILLO",
+      "risk_score": 6,
+      "remedy": {
+        "descripcion": "Con tu capacidad de ahorro puedes cotizar como trabajador independiente o usar BEPS para construir un futuro pensional.",
+        "paso1": {
+          "titulo": "Cotiza como trabajador independiente",
+          "descripcion": "Si ganas más de 1 SMMLV ($1.300.000/mes), estás obligado a cotizar. Puedes hacerlo tú mismo por la Planilla Integrada de Liquidación de Aportes (PILA) en cualquier banco o en Mi Planilla.",
+          "accion": "Pagar PILA independiente",
+          "url": "https://www.miplanilaenlinea.com",
+          "icono": "📋"
+        },
+        "paso2": {
+          "titulo": "Si no llegas a 1 SMMLV, usa BEPS",
+          "descripcion": "Con $50.000 a $100.000/mes en BEPS acumulas un ahorro significativo con el 20% del Estado. Es compatible con el trabajo informal.",
+          "accion": "Simular ahorro en BEPS",
+          "url": "https://www.beps.gov.co/simulador",
+          "icono": "🧮"
+        }
+      },
+      "programs": [
+        { "nombre": "BEPS", "descripcion": "Para quienes no alcanzan 1 SMMLV de ingresos", "url": "https://www.beps.gov.co", "icono": "🏦" },
+        { "nombre": "PILA Independiente", "descripcion": "Cotización voluntaria al sistema pensional", "url": "https://www.miplanilaenlinea.com", "icono": "📋" }
+      ],
+      "legal_basis": ["Ley 100/1993", "Ley 797/2003 (trabajadores independientes)", "Decreto 1273/2018"],
+      "alerta": "Con tu capacidad de ahorro puedes construir protección para la vejez. El tiempo es tu mayor aliado."
+    },
+    {
+      "id": "sisben_dependency",
+      "category": "previsional",
+      "label": "Dependencia del Sisbén sin formalizar",
+      "triggers": { "salud": ["subsidiado"], "actividad": ["informal", "cuidador"] },
+      "description": "Afiliado al régimen subsidiado (Sisbén) como estrategia de acceso a salud, sin cotizar al sistema pensional.",
+      "impact": "El Sisbén solo cubre salud, no pensión. Al cumplir 65 años sin pensión, la pobreza en la vejez es el principal riesgo.",
+      "risk_level": "AMARILLO",
+      "risk_score": 7,
+      "remedy": {
+        "descripcion": "El Sisbén y BEPS son COMPATIBLES. Puedes conservar tu salud subsidiada y además empezar a ahorrar para la vejez.",
+        "paso1": {
+          "titulo": "BEPS + Sisbén: son compatibles",
+          "descripcion": "Muchas personas creen que abrir BEPS les quita el Sisbén. Esto es FALSO. Puedes tener cuenta BEPS activa y seguir en el régimen subsidiado de salud sin problema.",
+          "accion": "Verificar compatibilidad",
+          "url": "https://www.colpensiones.gov.co/beps",
+          "icono": "✅"
+        },
+        "paso2": {
+          "titulo": "Colombia Mayor si tienes 65+ años",
+          "descripcion": "Si eres adulto mayor sin pensión, Colombia Mayor te da un subsidio bimestral entre $80.000 y $160.000. Solicítalo en tu Alcaldía Local o en prosperidadsocial.gov.co",
+          "accion": "Solicitar Colombia Mayor",
+          "url": "https://prosperidadsocial.gov.co/sgpp/pensiones/colombia-mayor/",
+          "icono": "👴"
+        }
+      },
+      "programs": [
+        { "nombre": "BEPS + Sisbén", "descripcion": "Son complementarios, no excluyentes", "url": "https://www.beps.gov.co", "icono": "✅" },
+        { "nombre": "Colombia Mayor", "descripcion": "Subsidio para adultos mayores sin pensión", "url": "https://prosperidadsocial.gov.co", "icono": "👴" }
+      ],
+      "legal_basis": ["Ley 100/1993 (Sisbén y régimen subsidiado)", "Ley 1580/2012 (Colombia Mayor)", "Decreto 604/2013 (BEPS)"],
+      "alerta": "El Sisbén cubre tu salud HOY, pero no te protege en la VEJEZ. Necesitas BEPS o pensión complementariamente."
+    },
+    {
+      "id": "gender_care_barrier",
+      "category": "genero",
+      "label": "Cuidadora no remunerada con barreras de acceso",
+      "triggers": { "cuidador": true, "actividad": ["cuidador", "informal"] },
+      "description": "Mujer u hombre que realiza trabajo de cuidado no remunerado (hijos, adultos mayores, personas con discapacidad), sin acceso al sistema pensional.",
+      "impact": "El trabajo de cuidado no cuenta como cotización. Es la principal brecha de género en pensiones en Colombia.",
+      "risk_level": "ROJO",
+      "risk_score": 9,
+      "remedy": {
+        "descripcion": "El trabajo de cuidado tiene reconocimiento legal en Colombia. Existen rutas específicas para cuidadoras en el sistema previsional.",
+        "paso1": {
+          "titulo": "Conoce tus derechos como cuidadora/cuidador",
+          "descripcion": "La Ley 2040 de 2020 y el Acto Legislativo 01 de 2023 reconocen el trabajo de cuidado. Las cuidadoras pueden acceder a BEPS con aportes mínimos. Además, el Ministerio del Trabajo tiene el programa 'Mi Trabajo Digno' para formalización.",
+          "accion": "Ver Ley 2040/2020",
+          "url": "https://www.mintrabajo.gov.co/",
+          "icono": "⚖️"
+        },
+        "paso2": {
+          "titulo": "Abre tu cuenta BEPS como cuidadora",
+          "descripcion": "BEPS tiene un enfoque especial para cuidadores no remunerados. Con $5.000/mes y el subsidio del 20% estatal, construyes tu protección para la vejez mientras cuidas a tu familia.",
+          "accion": "BEPS para cuidadoras",
+          "url": "https://www.beps.gov.co",
+          "icono": "🏦"
+        },
+        "paso3": {
+          "titulo": "Programa de Atención a Cuidadores – ICBF",
+          "descripcion": "El ICBF tiene programas de apoyo para cuidadores de niños y personas con discapacidad. Pueden incluir transferencias económicas y apoyo psicosocial.",
+          "accion": "Contactar ICBF",
+          "url": "https://www.icbf.gov.co",
+          "icono": "💛"
+        }
+      },
+      "programs": [
+        { "nombre": "BEPS para Cuidadoras", "descripcion": "Ahorro desde $5.000/mes con subsidio del Estado", "url": "https://www.beps.gov.co", "icono": "🏦" },
+        { "nombre": "Mi Trabajo Digno – MinTrabajo", "descripcion": "Programa de formalización para cuidadoras", "url": "https://www.mintrabajo.gov.co", "icono": "⚖️" },
+        { "nombre": "Apoyo ICBF", "descripcion": "Apoyo a cuidadores de niños y personas vulnerables", "url": "https://www.icbf.gov.co", "icono": "💛" }
+      ],
+      "legal_basis": ["Ley 2040/2020 (trabajo de cuidado)", "Acto Legislativo 01/2023", "Ley 1413/2010 (economía del cuidado)"],
+      "alerta": "El trabajo de cuidado es invisible para el sistema pensional, pero existen rutas legales para protegerte."
+    },
+    {
+      "id": "financial_illiteracy",
+      "category": "educativo",
+      "label": "Sin educación financiera ni cultura previsional",
+      "triggers": { "actividad": ["informal", "estudiante", "temporal"], "ahorro_max": 10000 },
+      "description": "Joven sin conocimiento del sistema pensional colombiano, no sabe qué es BEPS, Colpensiones ni AFP.",
+      "impact": "No tomar decisiones informadas hoy lleva a la desprotección total en la vejez.",
+      "risk_level": "AMARILLO",
+      "risk_score": 5,
+      "remedy": {
+        "descripcion": "Con información correcta y acciones simples desde hoy, puedes construir una base para tu futuro previsional.",
+        "paso1": {
+          "titulo": "Aprende las 3 rutas del sistema pensional",
+          "descripcion": "En Colombia tienes 3 opciones: (1) Colpensiones RPM – pensión garantizada si cotizas 1.300 semanas; (2) AFP privada (Porvenir, Protección) – pensión por ahorro individual; (3) BEPS – para quienes no pueden cotizar monto completo. Cada una tiene ventajas según tu situación.",
+          "accion": "Comparar regímenes",
+          "url": "https://www.colpensiones.gov.co/pensiones",
+          "icono": "📚"
+        },
+        "paso2": {
+          "titulo": "Usa el simulador de pensión",
+          "descripcion": "Colpensiones tiene un simulador gratuito que te muestra cuánto recibirías de pensión según tus semanas cotizadas. Úsalo para planear.",
+          "accion": "Simular mi pensión",
+          "url": "https://www.colpensiones.gov.co/simulador",
+          "icono": "🧮"
+        }
+      },
+      "programs": [
+        { "nombre": "Educación Financiera SENA", "descripcion": "Cursos gratuitos de planificación financiera personal", "url": "https://www.sena.edu.co", "icono": "🎓" },
+        { "nombre": "Simulador Colpensiones", "descripcion": "Calcula tu proyección pensional", "url": "https://www.colpensiones.gov.co", "icono": "🧮" }
+      ],
+      "legal_basis": ["Ley 100/1993 (sistema general de pensiones)", "Decreto 663/1993"],
+      "alerta": "El desconocimiento del sistema es la primera barrera. Con información, puedes tomar decisiones que cambien tu futuro."
+    },
+    {
+      "id": "student_early_start",
+      "category": "educativo",
+      "label": "Estudiante sin pensión ni ahorro",
+      "triggers": { "actividad": ["estudiante"] },
+      "description": "Joven estudiante que aún no ha empezado a cotizar ni ahorrar para la vejez.",
+      "impact": "Cada año sin cotizar es una semana perdida. A los 25 años es el mejor momento para empezar.",
+      "risk_level": "AMARILLO",
+      "risk_score": 4,
+      "remedy": {
+        "descripcion": "Eres joven: el tiempo compuesto es tu mayor ventaja. Empezar ahora, aunque sea poco, hace una diferencia enorme.",
+        "paso1": {
+          "titulo": "Empieza con BEPS desde ya",
+          "descripcion": "Como estudiante puedes abrir una cuenta BEPS y depositar lo que puedas. $10.000/mes hoy, con el 20% del Estado y el tiempo, puede crecer significativamente para cuando tengas 65 años.",
+          "accion": "Abrir cuenta BEPS",
+          "url": "https://www.beps.gov.co",
+          "icono": "🚀"
+        },
+        "paso2": {
+          "titulo": "Busca empleo formal con contrato",
+          "descripcion": "Un contrato formal (término fijo o indefinido) hace que el empleador pague el 75% de tu cotización a pensión. Es la forma más eficiente de cotizar semanas para la pensión.",
+          "accion": "Buscar empleo en SENA",
+          "url": "https://www.sena.edu.co/empleo",
+          "icono": "💼"
+        }
+      },
+      "programs": [
+        { "nombre": "BEPS", "descripcion": "Empieza a ahorrar desde $5.000/mes", "url": "https://www.beps.gov.co", "icono": "🚀" },
+        { "nombre": "Jóvenes en Acción", "descripcion": "Apoyo económico para jóvenes en formación", "url": "https://prosperidadsocial.gov.co", "icono": "🎓" }
+      ],
+      "legal_basis": ["Ley 100/1993", "Decreto 604/2013 (BEPS)"],
+      "alerta": "Cada año que pasa sin cotizar es una semana menos de pensión futura. El mejor momento para empezar fue ayer; el segundo mejor es hoy."
+    },
+    {
+      "id": "formal_worker_protected",
+      "category": "laboral",
+      "label": "Trabajador formal con cobertura",
+      "triggers": { "actividad": ["formal"], "salud": ["cotizante"] },
+      "description": "Trabajador con contrato formal y cotizando al sistema de seguridad social.",
+      "impact": "Está en la ruta correcta. Riesgo de vulnerabilidad bajo mientras mantenga la formalidad.",
+      "risk_level": "VERDE",
+      "risk_score": 1,
+      "remedy": {
+        "descripcion": "Estás en la ruta correcta. Optimiza tu estrategia pensional y protege lo que has cotizado.",
+        "paso1": {
+          "titulo": "Revisa tu historia laboral en Colpensiones",
+          "descripcion": "Verifica que tu empleador esté cotizando correctamente. En el portal de Colpensiones puedes ver tus semanas cotizadas y reportar inconsistencias.",
+          "accion": "Consultar historia laboral",
+          "url": "https://www.colpensiones.gov.co",
+          "icono": "🔍"
+        },
+        "paso2": {
+          "titulo": "Decide entre Colpensiones (RPM) y AFP privada",
+          "descripcion": "Si tienes menos de 35 años, compara ambos regímenes. El Acto Legislativo 2023 hará cambios importantes. Asesoría gratuita en Colpensiones o en tu AFP.",
+          "accion": "Comparar regímenes",
+          "url": "https://www.colpensiones.gov.co/pensiones/regimenes",
+          "icono": "⚖️"
+        }
+      },
+      "programs": [
+        { "nombre": "Colpensiones RPM", "descripcion": "Pensión garantizada con 1.300 semanas", "url": "https://www.colpensiones.gov.co", "icono": "🏛️" },
+        { "nombre": "AFP Privadas", "descripcion": "Ahorro individual con rentabilidad", "url": "https://www.asofondos.org.co", "icono": "📈" }
+      ],
+      "legal_basis": ["Ley 100/1993", "Acto Legislativo 01/2005", "Acto Legislativo 01/2023"],
+      "alerta": "Mantén tu formalidad y revisa periódicamente tu historia laboral para evitar inconsistencias."
+    }
+  ],
+  "programs_catalog": {
+    "BEPS": {
+      "nombre": "Beneficios Económicos Periódicos (BEPS)",
+      "entidad": "Colpensiones",
+      "descripcion": "Mecanismo de ahorro voluntario con subsidio del Estado del 20% para trabajadores que no pueden cotizar pensión completa.",
+      "requisitos": ["No tener pensión", "Ingresos inferiores a 1 SMMLV", "Mayor de 18 años"],
+      "beneficio": "Ahorro + 20% estatal = renta vitalicia al llegar a 65 años",
+      "url": "https://www.beps.gov.co",
+      "linea": "01 8000 91 1015"
+    },
+    "Colombia_Mayor": {
+      "nombre": "Colombia Mayor",
+      "entidad": "Prosperidad Social",
+      "descripcion": "Subsidio económico bimestral para adultos mayores de 65 años en pobreza extrema sin pensión.",
+      "requisitos": ["65 años o más", "Sin pensión", "Condición de pobreza extrema (Sisbén)"],
+      "beneficio": "$80.000 - $160.000 bimestrales",
+      "url": "https://prosperidadsocial.gov.co/sgpp/pensiones/colombia-mayor/",
+      "linea": "01 8000 951030"
+    },
+    "Fondo_Solidaridad": {
+      "nombre": "Fondo de Solidaridad Pensional",
+      "entidad": "Colpensiones",
+      "descripcion": "Subsidio de aportes para trabajadores de sectores vulnerables con ingresos entre 1 y 2 SMMLV.",
+      "requisitos": ["Ingreso 1-2 SMMLV", "Mayores de 55 años preferiblemente", "En lista de espera"],
+      "beneficio": "Subsidio del 50% al 75% de la cotización mensual",
+      "url": "https://www.colpensiones.gov.co/proteccion-para-la-vejez/",
+      "linea": "01 8000 91 1015"
+    }
+  }
+}

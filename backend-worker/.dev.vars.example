@@ -1,0 +1,6 @@
+# Copia este archivo como .dev.vars para desarrollo local con wrangler dev
+# NO subas .dev.vars a git
+
+GROQ_API_KEY=gsk_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+# ANTHROPIC_API_KEY=sk-ant-...
+# OPENAI_API_KEY=sk-...
