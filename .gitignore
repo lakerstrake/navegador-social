@@ -3,6 +3,7 @@
 .env.*
 !.env.*.example
 !.env.example
+!.env.production
 *.env
 .dev.vars          # Cloudflare Worker local secrets
 
