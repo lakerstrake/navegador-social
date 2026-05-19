@@ -31,13 +31,16 @@ export function AccessibilityWidget() {
       {/* Trigger del topbar — más amplio, con label visible en >=sm */}
       <button
         type="button"
-        onClick={() => setOpen(v => !v)}
-        aria-label="Opciones de accesibilidad visual"
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpen(prev => !prev);
+        }}
+        aria-label="Opciones de accesibilidad"
         aria-haspopup="menu"
         aria-expanded={open}
         title="Ajustar contraste y tamaño de letra"
         className={cn(
-          "relative shrink-0 min-h-[40px] sm:min-h-[36px] flex items-center gap-1.5 rounded-xl px-2.5 sm:px-3 border font-semibold text-[12px] tracking-tight transition-colors",
+          "relative shrink-0 min-h-[40px] sm:min-h-[36px] flex items-center gap-1.5 rounded-xl px-2.5 sm:px-3 border font-semibold text-[12px] tracking-tight transition-colors cursor-pointer select-none",
           open
             ? "bg-indigo-600 border-indigo-600 text-white shadow-md shadow-indigo-600/25"
             : hasActiveSetting
@@ -45,10 +48,10 @@ export function AccessibilityWidget() {
               : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300"
         )}
       >
-        <Eye className="size-4 shrink-0" strokeWidth={2} aria-hidden="true" />
-        <span className="hidden sm:inline">Vista</span>
+        <Eye className="size-4 shrink-0 pointer-events-none" strokeWidth={2} aria-hidden="true" />
+        <span className="hidden sm:inline pointer-events-none">Accesibilidad</span>
         {hasActiveSetting && !open && (
-          <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-emerald-500 ring-2 ring-white" aria-hidden="true" />
+          <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-emerald-500 ring-2 ring-white pointer-events-none" aria-hidden="true" />
         )}
       </button>
 
@@ -68,16 +71,17 @@ export function AccessibilityWidget() {
               aria-hidden="true"
             />
 
-            {/* Panel */}
+            {/* Panel — fixed z-50 SIEMPRE, debe estar sobre el backdrop z-40 del root stacking context */}
             <motion.div
               key="a11y-panel"
               role="menu"
               aria-label="Ajustes de accesibilidad"
+              onClick={(e) => e.stopPropagation()}
               initial={{ opacity: 0, y: -6, scale: 0.97 }}
               animate={{ opacity: 1, y: 0,  scale: 1 }}
               exit={{ opacity: 0, y: -4,  scale: 0.98 }}
               transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-              className="fixed sm:absolute z-50 right-3 sm:right-0 top-[60px] sm:top-full sm:mt-2 w-[calc(100vw-1.5rem)] sm:w-[300px] max-w-sm bg-white rounded-2xl border border-slate-200 shadow-2xl shadow-slate-900/15 overflow-hidden"
+              className="fixed z-50 right-3 sm:right-4 top-[60px] sm:top-[58px] w-[calc(100vw-1.5rem)] sm:w-[320px] max-w-sm bg-white rounded-2xl border border-slate-200 shadow-2xl shadow-slate-900/15 overflow-hidden"
             >
               {/* Header */}
               <div className="px-4 py-3 border-b border-slate-100 bg-gradient-to-br from-indigo-50/60 to-slate-50/40">

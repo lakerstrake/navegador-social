@@ -215,16 +215,16 @@ function CopyBtn({ texto }: { texto: string }) {
 // ── Bento Grid ─────────────────────────────────────────────────────────────────
 function BentoGrid({ onQuestion }: { onQuestion: (q: string) => void }) {
   return (
-    <div className="max-w-4xl mx-auto px-3 sm:px-4 py-5 sm:py-6">
-      <div className="mb-5 sm:mb-6">
+    <div className="max-w-4xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
+      <div className="mb-3 sm:mb-4">
         <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">
           Consultas profundas
         </p>
-        <h2 className="text-[22px] sm:text-[26px] font-extrabold text-slate-900 mt-1 tracking-tight leading-[1.15]">
+        <h2 className="text-[19px] sm:text-[24px] font-extrabold text-slate-900 mt-0.5 tracking-tight leading-[1.15]">
           ¿En qué puedo ayudarte?
         </h2>
-        <p className="text-[13px] sm:text-[13.5px] text-slate-600 mt-1.5 font-normal leading-snug">
-          Selecciona un área o escribe tu pregunta directamente
+        <p className="text-[12px] sm:text-[13px] text-slate-600 mt-1 font-normal leading-snug">
+          Selecciona un área o escribe tu pregunta
         </p>
       </div>
 
@@ -232,7 +232,7 @@ function BentoGrid({ onQuestion }: { onQuestion: (q: string) => void }) {
         variants={bentoContainer}
         initial="hidden"
         animate="visible"
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"
+        className="grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-2.5"
       >
         {CONSULTAS.map((cat) => (
           <motion.div
@@ -247,30 +247,30 @@ function BentoGrid({ onQuestion }: { onQuestion: (q: string) => void }) {
             )}
           >
             {/* Gradient accent bar */}
-            <div className={cn("h-[3px] w-full bg-gradient-to-r", cat.grad)} />
+            <div className={cn("h-[2.5px] w-full bg-gradient-to-r", cat.grad)} />
 
             {/* Header */}
-            <div className="px-4 pt-3.5 pb-2 flex items-center gap-2.5">
-              <div className={cn("size-8 rounded-xl flex items-center justify-center shrink-0", cat.accentBg)}>
-                <cat.Icon className={cn("size-4", cat.accent)} strokeWidth={1.75} />
+            <div className="px-3 pt-2.5 pb-1.5 flex items-center gap-2">
+              <div className={cn("size-7 rounded-lg flex items-center justify-center shrink-0", cat.accentBg)}>
+                <cat.Icon className={cn("size-3.5", cat.accent)} strokeWidth={1.75} />
               </div>
-              <span className="font-bold text-[13px] text-slate-800 tracking-tight">{cat.label}</span>
+              <span className="font-bold text-[12.5px] text-slate-800 tracking-tight leading-tight">{cat.label}</span>
             </div>
 
             {/* Questions */}
-            <div className="px-3 pb-3 space-y-0.5">
+            <div className="px-2 pb-2 space-y-0.5">
               {cat.preguntas.map((p) => (
                 <button
                   key={p}
                   onClick={() => onQuestion(p)}
                   className={cn(
-                    "w-full min-h-[40px] text-left text-[12.5px] sm:text-[12px] text-slate-600 leading-relaxed rounded-xl px-3 py-2.5",
+                    "w-full min-h-[36px] text-left text-[11.5px] text-slate-600 leading-snug rounded-lg px-2 py-1.5",
                     "hover:text-slate-900 hover:bg-slate-50 active:bg-slate-100 border border-transparent hover:border-slate-100",
-                    "transition-all flex items-start gap-2 group/q font-medium"
+                    "transition-all flex items-start gap-1.5 group/q font-medium"
                   )}
                 >
-                  <ArrowRight className="size-3 mt-1 text-slate-400 group-hover/q:text-indigo-500 shrink-0 transition-colors" />
-                  <span>{p}</span>
+                  <ArrowRight className="size-3 mt-0.5 text-slate-400 group-hover/q:text-indigo-500 shrink-0 transition-colors" />
+                  <span className="line-clamp-2">{p}</span>
                 </button>
               ))}
             </div>

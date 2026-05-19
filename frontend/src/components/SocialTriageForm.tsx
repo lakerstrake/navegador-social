@@ -62,20 +62,19 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
 
   return (
     <div className="flex flex-col h-full bg-gradient-to-br from-slate-50 via-blue-50/40 to-slate-100 overflow-y-auto">
-      <div className="max-w-2xl mx-auto w-full px-4 py-8 flex flex-col gap-6">
+      <div className="max-w-2xl mx-auto w-full px-4 py-4 sm:py-6 flex flex-col gap-3.5 sm:gap-4">
 
-        {/* ── Hero ── */}
+        {/* ── Hero — compacto ── */}
         <div className="text-center">
-          <div className="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 text-indigo-700 text-[11.5px] font-semibold px-3 py-1.5 rounded-full mb-4">
-            <MapPinned className="size-3.5" strokeWidth={2} />
+          <div className="inline-flex items-center gap-1.5 bg-indigo-50 border border-indigo-100 text-indigo-700 text-[10.5px] font-semibold px-2.5 py-0.5 rounded-full mb-2">
+            <MapPinned className="size-3" strokeWidth={2} />
             <span>Diagnóstico gratuito · Normativa colombiana</span>
           </div>
-          <h1 className="text-[26px] sm:text-[30px] font-extrabold text-slate-900 tracking-tight leading-[1.15] mb-2">
+          <h1 className="text-[22px] sm:text-[28px] font-extrabold text-slate-900 tracking-tight leading-[1.15] mb-1.5">
             Descubre tu <span className="text-indigo-700">ruta de derechos</span>
           </h1>
-          <p className="text-slate-600 text-[14px] max-w-md mx-auto leading-relaxed font-normal">
-            4 preguntas · menos de 2 minutos · orientación personalizada sobre
-            pensiones, BEPS y protección social.
+          <p className="text-slate-600 text-[12.5px] sm:text-[13.5px] max-w-md mx-auto leading-snug font-normal">
+            4 preguntas · menos de 2 minutos · orientación personalizada sobre pensiones, BEPS y protección social
           </p>
         </div>
 
@@ -100,9 +99,9 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
         {/* ── PASO 1: Actividad ── */}
         {paso === "Actividad" && (
           <div className="fade-up space-y-3">
-            <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-              <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1">Pregunta 1 de 4</p>
-              <h2 className="text-[17px] font-bold text-slate-800 mb-4">
+            <div className="bg-white rounded-2xl border border-slate-200 p-3.5 sm:p-4 shadow-sm">
+              <p className="text-[10.5px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Pregunta 1 de 4</p>
+              <h2 className="text-[16px] font-bold text-slate-800 mb-3">
                 ¿Cuál es tu actividad principal?
               </h2>
               <div className="space-y-2">
@@ -114,21 +113,21 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
                       onClick={() => setForm(f => ({ ...f, actividad: o.value }))}
                       aria-pressed={selected}
                       className={cn(
-                        "w-full min-h-[56px] flex items-center gap-3.5 rounded-xl px-4 py-3.5 border-2 text-left transition-all",
+                        "w-full min-h-[52px] flex items-center gap-3 rounded-xl px-3 py-2.5 border-2 text-left transition-all",
                         selected
                           ? "bg-indigo-50/60 border-indigo-600 shadow-sm shadow-indigo-600/10 ring-1 ring-indigo-600/10"
                           : "bg-white border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/30"
                       )}
                     >
                       <span className={cn(
-                        "size-10 rounded-xl flex items-center justify-center shrink-0 transition-colors",
+                        "size-9 rounded-lg flex items-center justify-center shrink-0 transition-colors",
                         selected ? "bg-indigo-600 text-white" : "bg-slate-100 text-slate-600"
                       )}>
-                        <o.Icon className="size-5" strokeWidth={1.75} />
+                        <o.Icon className="size-4" strokeWidth={1.75} />
                       </span>
                       <div className="flex-1 min-w-0">
-                        <p className={cn("text-[14px] font-semibold leading-tight tracking-tight", selected ? "text-indigo-900" : "text-slate-800")}>{o.label}</p>
-                        <p className={cn("text-[12px] mt-0.5 leading-snug font-medium", selected ? "text-indigo-700" : "text-slate-600")}>{o.sub}</p>
+                        <p className={cn("text-[13.5px] font-semibold leading-tight tracking-tight", selected ? "text-indigo-900" : "text-slate-800")}>{o.label}</p>
+                        <p className={cn("text-[11.5px] mt-0.5 leading-snug font-medium", selected ? "text-indigo-700" : "text-slate-600")}>{o.sub}</p>
                       </div>
                       {selected && (
                         <span className="ml-auto size-6 rounded-full bg-indigo-600 flex items-center justify-center shrink-0 shadow-sm">
@@ -146,9 +145,9 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
         {/* ── PASO 2: Salud ── */}
         {paso === "Salud" && (
           <div className="fade-up space-y-3">
-            <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-              <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1">Pregunta 2 de 4</p>
-              <h2 className="text-[17px] font-bold text-slate-800 mb-4">
+            <div className="bg-white rounded-2xl border border-slate-200 p-3.5 sm:p-4 shadow-sm">
+              <p className="text-[10.5px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Pregunta 2 de 4</p>
+              <h2 className="text-[16px] font-bold text-slate-800 mb-3">
                 ¿Cómo estás afiliado/a a salud?
               </h2>
               <div className="space-y-2">
@@ -160,21 +159,21 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
                       onClick={() => setForm(f => ({ ...f, salud: o.value }))}
                       aria-pressed={selected}
                       className={cn(
-                        "w-full min-h-[56px] flex items-center gap-3.5 rounded-xl px-4 py-3.5 border-2 text-left transition-all",
+                        "w-full min-h-[52px] flex items-center gap-3 rounded-xl px-3 py-2.5 border-2 text-left transition-all",
                         selected
                           ? "bg-indigo-50/60 border-indigo-600 shadow-sm shadow-indigo-600/10 ring-1 ring-indigo-600/10"
                           : "bg-white border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/30"
                       )}
                     >
                       <span className={cn(
-                        "size-10 rounded-xl flex items-center justify-center shrink-0 transition-colors",
+                        "size-9 rounded-lg flex items-center justify-center shrink-0 transition-colors",
                         selected ? "bg-indigo-600 text-white" : "bg-slate-100 text-slate-600"
                       )}>
-                        <o.Icon className="size-5" strokeWidth={1.75} />
+                        <o.Icon className="size-4" strokeWidth={1.75} />
                       </span>
                       <div className="flex-1 min-w-0">
-                        <p className={cn("text-[14px] font-semibold leading-tight tracking-tight", selected ? "text-indigo-900" : "text-slate-800")}>{o.label}</p>
-                        <p className={cn("text-[12px] mt-0.5 leading-snug font-medium", selected ? "text-indigo-700" : "text-slate-600")}>{o.sub}</p>
+                        <p className={cn("text-[13.5px] font-semibold leading-tight tracking-tight", selected ? "text-indigo-900" : "text-slate-800")}>{o.label}</p>
+                        <p className={cn("text-[11.5px] mt-0.5 leading-snug font-medium", selected ? "text-indigo-700" : "text-slate-600")}>{o.sub}</p>
                       </div>
                       {selected && (
                         <span className="ml-auto size-6 rounded-full bg-indigo-600 flex items-center justify-center shrink-0 shadow-sm">
@@ -192,7 +191,7 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
         {/* ── PASO 3: Ahorro y edad ── */}
         {paso === "Ahorro" && (
           <div className="fade-up space-y-3">
-            <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-6">
+            <div className="bg-white rounded-2xl border border-slate-200 p-3.5 sm:p-4 shadow-sm space-y-4">
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1">Pregunta 3 de 4</p>
                 <h2 className="text-[17px] font-bold text-slate-800 mb-1">¿Cuánto puedes ahorrar al mes?</h2>
@@ -300,7 +299,7 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
           <div className="fade-up space-y-3">
             <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
               <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1">Confirmación</p>
-              <h2 className="text-[17px] font-bold text-slate-800 mb-4">Tu perfil de diagnóstico</h2>
+              <h2 className="text-[16px] font-bold text-slate-800 mb-3">Tu perfil de diagnóstico</h2>
 
               <div className="space-y-2.5">
                 {[
