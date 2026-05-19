@@ -181,6 +181,59 @@
   }
 }
 
+/* ══ Accesibilidad: escalado de fuente vía zoom (afecta todo el layout) ══ */
+html.font-scale-1 { zoom: 1; }
+html.font-scale-2 { zoom: 1.15; }
+html.font-scale-3 { zoom: 1.3; }
+
+/* ══ Alto contraste: amarillos sobre negro (WCAG AAA) ══════════════════════ */
+html.high-contrast,
+html.high-contrast body {
+  background: #000 !important;
+  color: #ffd400 !important;
+}
+html.high-contrast * {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: #ffd400 !important;
+  border-color: #ffd400 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html.high-contrast button:not(:disabled),
+html.high-contrast a {
+  outline: 2px solid #ffd400 !important;
+  outline-offset: 2px;
+}
+html.high-contrast button:focus-visible,
+html.high-contrast a:focus-visible,
+html.high-contrast input:focus-visible,
+html.high-contrast textarea:focus-visible {
+  outline: 3px solid #ffffff !important;
+  outline-offset: 3px;
+}
+html.high-contrast button:disabled,
+html.high-contrast button[disabled] {
+  opacity: 0.55 !important;
+}
+html.high-contrast input,
+html.high-contrast textarea {
+  caret-color: #ffd400 !important;
+}
+html.high-contrast ::placeholder { color: #ffd400 !important; opacity: 0.65; }
+html.high-contrast svg { stroke: #ffd400 !important; }
+html.high-contrast svg path,
+html.high-contrast svg line,
+html.high-contrast svg polyline,
+html.high-contrast svg polygon,
+html.high-contrast svg rect,
+html.high-contrast svg circle {
+  stroke: #ffd400 !important;
+  fill: transparent !important;
+}
+
 @layer utilities {
   /* ── Scrollbar ── */
   .scrollbar-thin {

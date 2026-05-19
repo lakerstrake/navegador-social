@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import {
-  Stethoscope, Map, MessageSquare, Send, Copy, Check,
+  Stethoscope, Map as MapIcon, MessageSquare, Send, Copy, Check,
   Menu, X, ChevronRight, ExternalLink,
   Building2, Heart, Briefcase, Users, Wallet, Shield,
   Globe, Wifi, WifiOff, Loader2, AlertTriangle, Zap, ArrowRight,
@@ -12,6 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 import SocialTriageForm from "@/components/SocialTriageForm";
 import RightsMap from "@/components/RightsMap";
+import { AccessibilityWidget } from "@/components/AccessibilityWidget";
 import { runTriaje, sendChat, type TriajeRequest } from "@/lib/triajeClient";
 import { useDiagnostico } from "@/hooks/useDiagnostico";
 
@@ -22,6 +23,51 @@ type Mensaje   = { id: number; rol: Rol; texto: string; hora: string };
 type ApiEstado = "conectando" | "ok" | "error";
 const horaActual = () =>
   new Date().toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" });
+
+const WELCOME_MENSAJE: Mensaje = {
+  id: 0,
+  rol: "asistente",
+  texto: "Hola, soy tu **Navegador Social**. Estoy aquí para orientarte sobre pensiones, salud y derechos laborales. ¿En qué te puedo ayudar hoy?",
+  hora: "",
+};
+
+// ── Action cards institucionales (post-procesamiento frontend) ─────────────
+interface ActionCard {
+  url: string;
+  label: string;
+  hint: string;
+  Icon: LucideIcon;
+}
+const INSTITUTIONAL_ACTIONS: { match: RegExp; card: ActionCard }[] = [
+  {
+    match: /\b(colpensiones|pensi[oó]n(?!ado)|beps|cotizaci[oó]n|cotiza(?:nte|r))\b/i,
+    card: {
+      url: "https://www.colpensiones.gov.co/",
+      label: "Visitar el portal de Colpensiones",
+      hint: "Pensiones, BEPS y aportes",
+      Icon: Building2,
+    },
+  },
+  {
+    match: /\b(desempleo|informal(?:idad)?|empleo formal|servicio.{0,3}p[uú]blico.{0,3}empleo|buscar (?:trabajo|empleo))\b/i,
+    card: {
+      url: "https://www.serviciodeempleo.gov.co/",
+      label: "Buscar empleo formal en el Servicio Público de Empleo",
+      hint: "Vacantes y rutas de empleabilidad",
+      Icon: Briefcase,
+    },
+  },
+];
+
+function detectActionCards(texto: string): ActionCard[] {
+  const found = new Map<string, ActionCard>();
+  for (const { match, card } of INSTITUTIONAL_ACTIONS) {
+    if (match.test(texto) && card.url.startsWith("https://")) {
+      found.set(card.url, card);
+    }
+  }
+  return Array.from(found.values());
+}
 
 // ── Datos ──────────────────────────────────────────────────────────────────────
 interface ConsultaItem {
@@ -275,21 +321,44 @@ function ChatMessages({
           </motion.div>
         );
 
+        const cards = detectActionCards(m.texto);
         return (
           <motion.div key={m.id} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.2 }}
             className="flex items-end gap-2.5 group">
-            <div className="size-8 shrink-0 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-md shadow-blue-500/20 mb-4">
+            <div className="size-8 shrink-0 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center shadow-md shadow-indigo-500/20 mb-4">
               <Shield className="size-3.5 text-white" />
             </div>
-            <div className="flex flex-col gap-1 max-w-[82%] sm:max-w-[76%]">
+            <div className="flex flex-col gap-1.5 max-w-[82%] sm:max-w-[76%]">
               <div className="bg-white border border-slate-200/80 rounded-2xl rounded-bl-sm px-4 py-3.5 shadow-sm hover:shadow-md transition-shadow">
                 <Texto texto={m.texto} />
+                {cards.length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-slate-100 space-y-2">
+                    {cards.map(c => (
+                      <a
+                        key={c.url}
+                        href={c.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 min-h-[52px] rounded-xl border border-indigo-200 bg-indigo-50/50 hover:bg-indigo-50 hover:border-indigo-300 px-3 py-2.5 transition-colors group/card"
+                      >
+                        <span className="size-9 rounded-xl bg-indigo-600 flex items-center justify-center shrink-0 shadow-sm shadow-indigo-600/20">
+                          <c.Icon className="size-4 text-white" strokeWidth={2} />
+                        </span>
+                        <span className="flex-1 min-w-0">
+                          <span className="block text-[12.5px] font-bold text-indigo-900 leading-tight tracking-tight">{c.label}</span>
+                          <span className="block text-[10.5px] text-indigo-700 font-medium mt-0.5">{c.hint}</span>
+                        </span>
+                        <ExternalLink className="size-3.5 text-indigo-500 shrink-0 transition-transform group-hover/card:translate-x-0.5" strokeWidth={2.25} />
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
               <div className="flex items-center gap-2 px-1">
-                <span className="text-[10px] text-slate-400">{m.hora}</span>
-                <span className="text-[10px] text-slate-200">·</span>
-                <span className="text-[10px] text-slate-400">Navegador Social</span>
+                {m.hora && <span className="text-[10px] text-slate-500">{m.hora}</span>}
+                {m.hora && <span className="text-[10px] text-slate-300">·</span>}
+                <span className="text-[10px] text-slate-500 font-medium">Navegador Social</span>
                 <CopyBtn texto={m.texto} />
               </div>
             </div>
@@ -315,6 +384,52 @@ function ChatMessages({
 
       <div ref={bottomRef} />
     </div>
+  );
+}
+
+// ── Loading Modal (overlay con backdrop-blur) ──────────────────────────────────
+function LoadingModal({ open }: { open: boolean }) {
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          key="loading-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Procesando tu diagnóstico"
+          aria-live="polite"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm px-6"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 12, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0,  scale: 1 }}
+            exit={{ opacity: 0, y: 6,  scale: 0.98 }}
+            transition={{ duration: 0.28, ease: [0.25, 0.1, 0.25, 1] }}
+            className="w-full max-w-sm bg-white rounded-3xl border border-slate-200 shadow-2xl shadow-slate-900/15 px-6 py-7 flex flex-col items-center justify-center text-center gap-4"
+          >
+            <motion.span
+              className="relative flex items-center justify-center size-14 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100 border border-indigo-200"
+              animate={{ scale: [1, 1.04, 1] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <Loader2 className="size-7 text-indigo-600 animate-spin" strokeWidth={2} />
+            </motion.span>
+            <div className="space-y-1.5">
+              <p className="text-[15px] font-bold text-slate-900 tracking-tight">
+                Organizando la normativa, por favor espera…
+              </p>
+              <p className="text-[12.5px] text-slate-600 leading-relaxed font-medium">
+                Estamos trazando tu ruta de derechos con base en normativa colombiana vigente.
+              </p>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -346,14 +461,14 @@ function MagicCommandBar({
           }}
           transition={{ duration: 0.25 }}
           className={cn(
-            "flex gap-2 items-end rounded-2xl border px-4 py-3",
+            "flex gap-2 items-center rounded-2xl border px-4 py-3",
             "bg-white/95 backdrop-blur-md transition-colors duration-200",
-            focused ? "border-blue-300" : "border-slate-200"
+            focused ? "border-indigo-300" : "border-slate-200"
           )}
         >
           <Zap className={cn(
-            "size-4 shrink-0 mb-[3px] mt-auto transition-colors duration-200",
-            focused ? "text-blue-500" : "text-slate-300"
+            "size-4 shrink-0 self-center transition-colors duration-200",
+            focused ? "text-indigo-500" : "text-slate-400"
           )} />
           <textarea
             ref={textareaRef}
@@ -374,7 +489,7 @@ function MagicCommandBar({
             whileTap={{ scale: 0.88 }}
             aria-label="Enviar consulta"
             className={cn(
-              "size-11 sm:size-9 rounded-xl flex items-center justify-center shrink-0 mb-0.5 transition-colors duration-150",
+              "size-11 sm:size-9 rounded-xl flex items-center justify-center shrink-0 self-center transition-colors duration-150",
               input.trim() && !loading
                 ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-500/30"
                 : "bg-slate-100 text-slate-300 cursor-not-allowed"
@@ -399,7 +514,7 @@ export default function Home() {
   const { result: triajeResult, setResult: setTriajeResult, screen, setScreen } = useDiagnostico();
   const [triajeLoading, setTriajeLoading] = useState(false);
   const [triajeError,   setTriajeError]   = useState<string | null>(null);
-  const [mensajes,      setMensajes]      = useState<Mensaje[]>([]);
+  const [mensajes,      setMensajes]      = useState<Mensaje[]>([WELCOME_MENSAJE]);
   const [input,         setInput]         = useState("");
   const [chatLoading,   setChatLoading]   = useState(false);
   const [apiEstado,     setApiEstado]     = useState<ApiEstado>("conectando");
@@ -464,7 +579,7 @@ export default function Home() {
 
   const NAV_ITEMS = [
     { id: "triaje"    as Screen, Icon: Stethoscope,   label: "Diagnóstico",   sub: "Formulario de triaje"                             },
-    { id: "mapa"      as Screen, Icon: Map,            label: "Mi Mapa",       sub: triajeResult ? "Ver resultados" : "Sin diagnóstico" },
+    { id: "mapa"      as Screen, Icon: MapIcon,        label: "Mi Mapa",       sub: triajeResult ? "Ver resultados" : "Sin diagnóstico" },
     { id: "consultas" as Screen, Icon: MessageSquare,  label: "Consultas IA",  sub: "Chat · Normativa colombiana"                      },
   ];
 
@@ -484,6 +599,9 @@ export default function Home() {
           />
         )}
       </AnimatePresence>
+
+      {/* ── Loading modal (procesamiento RAG) ── */}
+      <LoadingModal open={triajeLoading} />
 
       {/* ══════════════════════════════════════════════════════════
           FLOATING SIDEBAR
@@ -689,6 +807,9 @@ export default function Home() {
               {apiEstado === "ok" ? "Groq · LLaMA 3.3" : apiEstado === "error" ? "Offline" : "…"}
             </span>
           </div>
+
+          {/* Accessibility dropdown */}
+          <AccessibilityWidget />
         </header>
 
         {/* ══ SCREEN AREA ══ */}
@@ -773,10 +894,18 @@ export default function Home() {
 
                 {/* Chat / Bento area */}
                 <main className="flex-1 overflow-y-auto scrollbar-thin">
-                  {mensajes.length === 0
-                    ? <BentoGrid onQuestion={enviarChat} />
-                    : <ChatMessages mensajes={mensajes} chatLoading={chatLoading} bottomRef={bottomRef} />
-                  }
+                  {(() => {
+                    const hasUserMsg = mensajes.some(m => m.rol === "usuario");
+                    if (hasUserMsg) {
+                      return <ChatMessages mensajes={mensajes} chatLoading={chatLoading} bottomRef={bottomRef} />;
+                    }
+                    return (
+                      <>
+                        <ChatMessages mensajes={mensajes} chatLoading={false} bottomRef={bottomRef} />
+                        <BentoGrid onQuestion={enviarChat} />
+                      </>
+                    );
+                  })()}
                 </main>
 
                 {/* Magic Command Bar */}

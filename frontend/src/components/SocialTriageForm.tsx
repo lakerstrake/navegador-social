@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import {
   Hammer, HeartHandshake, ClipboardList, GraduationCap, Briefcase, RefreshCw,
   Stethoscope, Users, ShieldCheck, AlertCircle, Check, Minus, Plus, MapPinned,
@@ -12,37 +11,6 @@ import {
   type TriajeRequest, type Actividad, type EstadoSalud,
   ACTIVIDAD_LABELS, SALUD_LABELS,
 } from "@/lib/triajeClient";
-
-// ── Loading cycler — mensajes empáticos ──────────────────────────────────────
-const LOADING_MESSAGES = [
-  "Organizando la normativa a tu favor…",
-  "Identificando oportunidades de protección…",
-  "Trazando tu ruta de derechos…",
-];
-
-function LoadingCycler() {
-  const [idx, setIdx] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setIdx(i => (i + 1) % LOADING_MESSAGES.length), 1500);
-    return () => clearInterval(t);
-  }, []);
-  return (
-    <span className="relative inline-flex h-[1.2em] overflow-hidden items-center">
-      <AnimatePresence mode="wait">
-        <motion.span
-          key={idx}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.32, ease: [0.25, 0.1, 0.25, 1] }}
-          className="block whitespace-nowrap"
-        >
-          {LOADING_MESSAGES[idx]}
-        </motion.span>
-      </AnimatePresence>
-    </span>
-  );
-}
 
 interface Props {
   onSubmit: (data: TriajeRequest) => Promise<void>;
@@ -103,7 +71,7 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
             <span>Diagnóstico gratuito · Normativa colombiana</span>
           </div>
           <h1 className="text-[26px] sm:text-[30px] font-extrabold text-slate-900 tracking-tight leading-[1.15] mb-2">
-            Descubre tu <span className="text-indigo-700">Ruta de Derechos</span>
+            Descubre tu <span className="text-indigo-700">ruta de derechos</span>
           </h1>
           <p className="text-slate-600 text-[14px] max-w-md mx-auto leading-relaxed font-normal">
             4 preguntas · menos de 2 minutos · orientación personalizada sobre
@@ -352,10 +320,10 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
                 ))}
               </div>
 
-              <div className="mt-4 flex items-start gap-2 bg-blue-50 border border-blue-200 rounded-xl px-3 py-2.5">
-                <span className="text-blue-500 text-lg shrink-0">🔒</span>
-                <p className="text-[11.5px] text-blue-800">
-                  Esta información es solo para generar tu orientación. No se almacena ni se comparte.
+              <div className="mt-4 flex items-start gap-2.5 bg-indigo-50/60 border border-indigo-200 rounded-xl px-3.5 py-3">
+                <ShieldCheck className="size-4 text-indigo-600 shrink-0 mt-0.5" strokeWidth={2} />
+                <p className="text-[11.5px] text-indigo-900 leading-relaxed font-medium">
+                  Tus datos están protegidos bajo la <strong className="font-bold">Ley 1581 de 2012</strong>. Esta información es anónima, se procesa en tu dispositivo y no se almacena en bases de datos externas.
                 </p>
               </div>
             </div>
@@ -387,19 +355,10 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
             <button
               onClick={handleSubmit}
               disabled={loading}
-              className="flex-1 min-h-[52px] rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-800 hover:from-indigo-500 hover:to-indigo-700 text-white font-bold text-[14.5px] shadow-xl shadow-indigo-900/25 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-70"
+              className="flex-1 min-h-[52px] rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-800 hover:from-indigo-500 hover:to-indigo-700 text-white font-bold text-[14.5px] shadow-xl shadow-indigo-900/25 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-center disabled:opacity-70 disabled:cursor-wait"
             >
-              {loading ? (
-                <>
-                  <svg className="size-5 animate-spin shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg>
-                  <LoadingCycler />
-                </>
-              ) : (
-                <>
-                  <MapPinned className="size-5" strokeWidth={2} />
-                  Ver mi Ruta de Derechos
-                </>
-              )}
+              <MapPinned className="size-5 shrink-0" strokeWidth={2} />
+              <span>Ver mi ruta de derechos</span>
             </button>
           )}
         </div>

@@ -126,7 +126,7 @@ export default function RightsMap({ result, onReset, onDeepConsult }: Props) {
         <div className="text-center fade-up">
           <div className="inline-flex items-center gap-1.5 bg-white border border-slate-200 text-slate-700 text-[11px] font-semibold px-3 py-1 rounded-full mb-3 shadow-sm">
             <Sparkles className="size-3 text-indigo-600" strokeWidth={2.25} />
-            Tu Ruta de Derechos
+            Tu ruta de derechos
           </div>
           <h1 className="text-[26px] sm:text-[30px] font-extrabold text-slate-900 tracking-tight leading-[1.15] mb-2.5">
             {result.titulo}
@@ -206,17 +206,17 @@ export default function RightsMap({ result, onReset, onDeepConsult }: Props) {
         <div className="flex flex-col sm:flex-row gap-3 pt-1">
           <button
             onClick={onDeepConsult}
-            className="flex-1 min-h-[52px] rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-800 text-white font-bold text-[14px] shadow-lg shadow-indigo-700/25 hover:from-indigo-500 hover:to-indigo-700 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+            className="flex-1 min-h-[52px] rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-800 text-white font-bold text-[14px] shadow-lg shadow-indigo-700/25 hover:from-indigo-500 hover:to-indigo-700 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-center"
           >
-            <MessageSquare className="size-4.5" strokeWidth={2} />
-            Hacer consulta profunda
+            <MessageSquare className="size-4.5 shrink-0" strokeWidth={2} />
+            <span>Hacer consulta profunda</span>
           </button>
           <button
             onClick={onReset}
-            className="flex-1 sm:flex-none sm:w-48 min-h-[48px] rounded-2xl border border-slate-200 text-slate-700 font-semibold text-[13.5px] hover:bg-slate-50 hover:border-slate-300 transition-colors flex items-center justify-center gap-1.5"
+            className="flex-1 sm:flex-none sm:w-48 min-h-[48px] rounded-2xl border border-slate-200 text-slate-700 font-semibold text-[13.5px] hover:bg-slate-50 hover:border-slate-300 transition-colors flex items-center justify-center gap-1.5 text-center"
           >
-            <ArrowLeft className="size-4" strokeWidth={2.25} />
-            Nuevo diagnóstico
+            <ArrowLeft className="size-4 shrink-0" strokeWidth={2.25} />
+            <span>Nuevo diagnóstico</span>
           </button>
         </div>
 
