@@ -12,10 +12,14 @@ import {
 import { cn } from "@/lib/utils";
 import SocialTriageForm from "@/components/SocialTriageForm";
 import RightsMap from "@/components/RightsMap";
+import WelcomeHero from "@/components/WelcomeHero";
 import { AccessibilityWidget } from "@/components/AccessibilityWidget";
 import { ExternalLinkBridge, openSafe } from "@/components/ExternalLinkBridge";
 import { runTriaje, sendChat, type TriajeRequest } from "@/lib/triajeClient";
 import { useDiagnostico } from "@/hooks/useDiagnostico";
+
+type Phase = "hydrating" | "welcome" | "app";
+const WELCOME_KEY = "hasSeenWelcome";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:9000";
 type Screen    = "triaje" | "mapa" | "consultas";
@@ -533,6 +537,21 @@ export default function Home() {
   const bottomRef   = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // ── Onboarding phase (hidratado contra sessionStorage) ──
+  const [phase, setPhase] = useState<Phase>("hydrating");
+  useEffect(() => {
+    try {
+      const seen = window.sessionStorage.getItem(WELCOME_KEY);
+      setPhase(seen ? "app" : "welcome");
+    } catch {
+      setPhase("welcome");
+    }
+  }, []);
+  const startApp = useCallback(() => {
+    try { window.sessionStorage.setItem(WELCOME_KEY, "1"); } catch { /* ignore */ }
+    setPhase("app");
+  }, []);
+
   useEffect(() => {
     fetch(`${API_URL}/`)
       .then(r => setApiEstado(r.ok ? "ok" : "error"))
@@ -592,7 +611,30 @@ export default function Home() {
     { id: "consultas" as Screen, Icon: MessageSquare,  label: "Consultas IA",  sub: "Chat · Normativa colombiana"                      },
   ];
 
+  if (phase === "hydrating") {
+    // Evita flicker SSR/hydration: render mínimo neutro
+    return <div className="h-full bg-slate-50" />;
+  }
+
   return (
+    <AnimatePresence mode="wait" initial={false}>
+      {phase === "welcome" ? (
+        <motion.div
+          key="welcome"
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0, scale: 1.05, transition: { duration: 0.32, ease: EASE_SMOOTH } }}
+          className="h-full w-full"
+        >
+          <WelcomeHero onStart={startApp} />
+        </motion.div>
+      ) : (
+        <motion.div
+          key="app"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0, transition: { duration: 0.34, ease: EASE_SMOOTH } }}
+          className="h-full"
+        >
     <div className="flex h-full bg-slate-50/80 overflow-hidden">
 
       {/* ── Mobile overlay ── */}
@@ -942,5 +984,8 @@ export default function Home() {
         </div>
       </div>
     </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
