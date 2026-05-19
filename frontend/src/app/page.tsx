@@ -7,6 +7,7 @@ import {
   Menu, X, ChevronRight, ExternalLink,
   Building2, Heart, Briefcase, Users, Wallet, Shield,
   Globe, Wifi, WifiOff, Loader2, AlertTriangle, Zap, ArrowRight,
+  GraduationCap,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -787,7 +788,7 @@ export default function Home() {
         </div>
 
         {/* Status footer */}
-        <div className="px-4 py-3 border-t border-slate-100">
+        <div className="px-4 py-3 border-t border-slate-100 space-y-2">
           <div className="flex items-center gap-2">
             {apiEstado === "ok"
               ? <Wifi    className="size-3 text-emerald-500" />
@@ -802,6 +803,23 @@ export default function Home() {
               {apiEstado === "ok" ? "Sistema activo" : apiEstado === "error" ? "Sin conexión" : "Conectando…"}
             </span>
             <span className="ml-auto text-[10px] text-slate-300 font-mono">v3.0</span>
+          </div>
+
+          {/* Atribución de autoría */}
+          <div className="flex items-start gap-1.5 pt-2 border-t border-slate-100">
+            <GraduationCap className="size-3 text-indigo-500 shrink-0 mt-0.5" strokeWidth={2} aria-hidden="true" />
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] text-slate-400 font-medium leading-tight">Proyecto académico de</p>
+              <p className="text-[11px] text-slate-800 font-semibold tracking-tight leading-tight mt-0.5">
+                Sarai Yireth Corredor Miranda
+              </p>
+              <p className="text-[10px] text-emerald-700 font-semibold leading-tight mt-0.5">
+                Trabajadora Social
+              </p>
+              <p className="text-[10px] text-indigo-600 font-semibold leading-tight mt-0.5">
+                Universidad de La Salle
+              </p>
+            </div>
           </div>
         </div>
       </aside>
@@ -844,6 +862,24 @@ export default function Home() {
               </div>
             ))}
           </nav>
+
+          {/* Atribución autoría — visible en md+ */}
+          <div
+            className="hidden md:flex items-center gap-1.5 text-[10.5px] font-medium shrink-0 border-l border-slate-200 pl-3 max-w-[320px]"
+            title="Autora: Sarai Yireth Corredor Miranda · Trabajadora Social · Universidad de La Salle"
+          >
+            <GraduationCap className="size-3.5 text-indigo-500 shrink-0" strokeWidth={2} />
+            <span className="truncate leading-tight">
+              <span className="text-slate-400">Por</span>{" "}
+              <span className="text-slate-700 font-semibold">Sarai Y. Corredor M.</span>
+              <span className="hidden lg:inline">
+                {" "}<span className="text-slate-400">·</span>{" "}
+                <span className="text-emerald-700 font-semibold">Trab. Social</span>
+              </span>
+              {" "}<span className="text-slate-400">·</span>{" "}
+              <span className="text-indigo-600 font-semibold">U. de La Salle</span>
+            </span>
+          </div>
 
           {/* API status pill — compacto en mobile, full label en desktop */}
           <div

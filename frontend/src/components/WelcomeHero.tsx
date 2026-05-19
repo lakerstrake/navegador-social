@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
-import { ArrowRight, Sparkles, Lock } from "lucide-react";
+import { ArrowRight, Sparkles, Lock, GraduationCap } from "lucide-react";
 
 interface Step {
   emoji: string;
@@ -160,6 +160,22 @@ export default function WelcomeHero({ onStart }: { onStart: () => void }) {
           <p className="inline-flex items-center gap-1.5 text-[11.5px] text-slate-600 font-medium">
             <Lock className="size-3 text-emerald-600" strokeWidth={2.5} aria-hidden="true" />
             <span>100% privado y anónimo · Ley 1581 de 2012</span>
+          </p>
+        </motion.div>
+
+        {/* Atribución académica */}
+        <motion.div
+          variants={item}
+          className="mt-4 flex items-center gap-2 bg-white/70 backdrop-blur-sm border border-slate-200 rounded-full px-3.5 py-1.5 shadow-sm"
+        >
+          <GraduationCap className="size-3.5 text-indigo-600 shrink-0" strokeWidth={2} aria-hidden="true" />
+          <p className="text-[11px] text-slate-700 font-medium leading-tight">
+            Proyecto académico de{" "}
+            <span className="font-bold text-slate-900">Sarai Yireth Corredor Miranda</span>{" "}
+            <span className="text-slate-400">·</span>{" "}
+            <span className="text-emerald-700 font-semibold">Trabajadora Social</span>{" "}
+            <span className="text-slate-400">·</span>{" "}
+            <span className="text-indigo-700 font-semibold">Universidad de La Salle</span>
           </p>
         </motion.div>
       </motion.div>
