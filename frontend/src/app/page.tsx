@@ -758,7 +758,7 @@ export default function Home() {
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
 
         {/* Glassmorphism topbar */}
-        <header className="shrink-0 h-14 sm:h-12 flex items-center gap-3 px-3 sm:px-4 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+        <header className="shrink-0 h-14 sm:h-12 flex items-center gap-2 sm:gap-3 px-3 sm:px-4 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
           <button
             onClick={() => setSidebarOpen(true)}
             aria-label="Abrir menú"
@@ -791,13 +791,17 @@ export default function Home() {
             ))}
           </nav>
 
-          {/* API status pill */}
-          <div className={cn(
-            "flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[11px] font-medium shrink-0",
-            apiEstado === "ok"    ? "bg-emerald-50 border-emerald-200 text-emerald-700" :
-            apiEstado === "error" ? "bg-red-50     border-red-200     text-red-700"     :
-                                    "bg-amber-50   border-amber-200   text-amber-700"
-          )}>
+          {/* API status pill — compacto en mobile, full label en desktop */}
+          <div
+            title={apiEstado === "ok" ? "Conectado · Groq LLaMA 3.3" : apiEstado === "error" ? "Sin conexión" : "Conectando…"}
+            className={cn(
+              "flex items-center gap-1.5 rounded-full border text-[11px] font-semibold shrink-0",
+              "size-7 justify-center sm:size-auto sm:justify-start sm:px-2.5 sm:py-1",
+              apiEstado === "ok"    ? "bg-emerald-50 border-emerald-200 text-emerald-700" :
+              apiEstado === "error" ? "bg-red-50     border-red-200     text-red-700"     :
+                                      "bg-amber-50   border-amber-200   text-amber-700"
+            )}
+          >
             <span className={cn("size-1.5 rounded-full shrink-0",
               apiEstado === "ok"    ? "bg-emerald-500"              :
               apiEstado === "error" ? "bg-red-500"                  :
