@@ -1,6 +1,8 @@
 # ── Drafts / notas locales (no commitear) ─────────────────────────────────────
-# SYSTEM DIRECTIVE*.txt
+\#*.txt
+*DIRECTIVE*.txt
 *.draft.md
+.claude/
 
 # ── Entornos y secretos ───────────────────────────────────────────────────────
 .env

@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "PowerShell(cd \"C:\\\\Users\\\\USER PC\\\\trabajoSocial\"; git reset HEAD -- \"# SYSTEM DIRECTIVE UIUX OVERHAUL -.txt\" 2>&1)"
-    ]
-  }
-}
