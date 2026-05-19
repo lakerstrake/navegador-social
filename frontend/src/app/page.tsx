@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import SocialTriageForm from "@/components/SocialTriageForm";
 import RightsMap from "@/components/RightsMap";
 import { AccessibilityWidget } from "@/components/AccessibilityWidget";
+import { ExternalLinkBridge, openSafe } from "@/components/ExternalLinkBridge";
 import { runTriaje, sendChat, type TriajeRequest } from "@/lib/triajeClient";
 import { useDiagnostico } from "@/hooks/useDiagnostico";
 
@@ -27,7 +28,16 @@ const horaActual = () =>
 const WELCOME_MENSAJE: Mensaje = {
   id: 0,
   rol: "asistente",
-  texto: "Hola, soy tu **Navegador Social**. Estoy aquí para orientarte sobre pensiones, salud y derechos laborales. ¿En qué te puedo ayudar hoy?",
+  texto:
+    "Hola, soy el **Navegador Social de Derechos**, asistente institucional del Estado colombiano.\n\n" +
+    "Puedo orientarte en:\n" +
+    "• **Pensiones y BEPS** — Ley 100/1993 y Decreto 604/2013\n" +
+    "• **Salud y EPS** — Ley 1438/2011 y régimen subsidiado\n" +
+    "• **Derechos laborales** — Código Sustantivo del Trabajo\n" +
+    "• **Subsidios y Sisbén IV** — Familias en Acción y Mi Casa Ya\n" +
+    "• **Víctimas del conflicto** — Ley 1448/2011 y RUV\n" +
+    "• **Familia y niñez** — Ley 1098/2006 e ICBF\n\n" +
+    "¿En qué te puedo ayudar hoy?",
   hora: "",
 };
 
@@ -335,22 +345,21 @@ function ChatMessages({
                 {cards.length > 0 && (
                   <div className="mt-3 pt-3 border-t border-slate-100 space-y-2">
                     {cards.map(c => (
-                      <a
+                      <button
                         key={c.url}
-                        href={c.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-3 min-h-[52px] rounded-xl border border-indigo-200 bg-indigo-50/50 hover:bg-indigo-50 hover:border-indigo-300 px-3 py-2.5 transition-colors group/card"
+                        type="button"
+                        onClick={() => openSafe(c.url)}
+                        className="w-full flex items-center gap-3 min-h-[52px] rounded-xl border border-indigo-200 bg-indigo-50/50 hover:bg-indigo-50 hover:border-indigo-300 px-3 py-2.5 transition-colors group/card text-left cursor-pointer"
                       >
-                        <span className="size-9 rounded-xl bg-indigo-600 flex items-center justify-center shrink-0 shadow-sm shadow-indigo-600/20">
+                        <span className="size-9 rounded-xl bg-indigo-600 flex items-center justify-center shrink-0 shadow-sm shadow-indigo-600/20 pointer-events-none">
                           <c.Icon className="size-4 text-white" strokeWidth={2} />
                         </span>
-                        <span className="flex-1 min-w-0">
+                        <span className="flex-1 min-w-0 pointer-events-none">
                           <span className="block text-[12.5px] font-bold text-indigo-900 leading-tight tracking-tight">{c.label}</span>
                           <span className="block text-[10.5px] text-indigo-700 font-medium mt-0.5">{c.hint}</span>
                         </span>
-                        <ExternalLink className="size-3.5 text-indigo-500 shrink-0 transition-transform group-hover/card:translate-x-0.5" strokeWidth={2.25} />
-                      </a>
+                        <ExternalLink className="size-3.5 text-indigo-500 shrink-0 transition-transform group-hover/card:translate-x-0.5 pointer-events-none" strokeWidth={2.25} />
+                      </button>
                     ))}
                   </div>
                 )}
@@ -602,6 +611,9 @@ export default function Home() {
 
       {/* ── Loading modal (procesamiento RAG) ── */}
       <LoadingModal open={triajeLoading} />
+
+      {/* ── Puente de redirección segura a sitios oficiales ── */}
+      <ExternalLinkBridge />
 
       {/* ══════════════════════════════════════════════════════════
           FLOATING SIDEBAR

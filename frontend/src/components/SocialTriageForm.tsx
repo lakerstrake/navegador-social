@@ -98,7 +98,15 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
 
         {/* ── PASO 1: Actividad ── */}
         {paso === "Actividad" && (
-          <div className="fade-up space-y-3">
+          <div className="fade-up space-y-2.5">
+            {/* Aviso permanente de tratamiento de datos (Ley 1581/2012) */}
+            <div className="flex items-start gap-2 bg-indigo-50/70 border border-indigo-200 rounded-xl px-3 py-2.5">
+              <ShieldCheck className="size-3.5 text-indigo-600 shrink-0 mt-0.5" strokeWidth={2.25} />
+              <p className="text-[11px] text-indigo-900 leading-snug font-medium">
+                Tus respuestas son <strong className="font-bold">anónimas</strong> y se procesan en tu dispositivo bajo la <strong className="font-bold">Ley 1581 de 2012</strong>. No almacenamos ni compartimos esta información.
+              </p>
+            </div>
+
             <div className="bg-white rounded-2xl border border-slate-200 p-3.5 sm:p-4 shadow-sm">
               <p className="text-[10.5px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Pregunta 1 de 4</p>
               <h2 className="text-[16px] font-bold text-slate-800 mb-3">
@@ -205,17 +213,40 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
                   <p className="text-[11.5px] text-slate-400 mt-0.5">pesos colombianos / mes</p>
                 </div>
 
-                {/* Slider */}
+                {/* Slider — rango ampliado 0–1.000.000 COP */}
                 <input
-                  type="range" min={0} max={150000} step={5000}
+                  type="range" min={0} max={1000000} step={10000}
                   value={form.ahorro_mensual ?? 0}
                   onChange={(e) => setForm(f => ({ ...f, ahorro_mensual: Number(e.target.value) }))}
-                  className="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer accent-blue-600"
+                  className="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer accent-indigo-600"
                 />
-                <div className="flex justify-between text-[10.5px] text-slate-400 mt-1">
+                <div className="flex justify-between text-[10.5px] text-slate-500 mt-1 font-medium">
                   <span>$0</span>
-                  <span>$75.000</span>
-                  <span>$150.000</span>
+                  <span>$250.000</span>
+                  <span>$500.000</span>
+                  <span>$1.000.000</span>
+                </div>
+
+                {/* Input numérico complementario para precisión */}
+                <div className="mt-3 flex items-center gap-2">
+                  <span className="text-[11px] font-semibold text-slate-500 shrink-0">Monto exacto:</span>
+                  <div className="flex-1 relative">
+                    <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[12px] text-slate-500 font-medium pointer-events-none">$</span>
+                    <input
+                      type="number"
+                      min={0}
+                      max={1500000}
+                      step={1000}
+                      inputMode="numeric"
+                      value={form.ahorro_mensual ?? 0}
+                      onChange={(e) => {
+                        const raw = Number(e.target.value) || 0;
+                        const clamped = Math.max(0, Math.min(1_500_000, raw));
+                        setForm(f => ({ ...f, ahorro_mensual: clamped }));
+                      }}
+                      className="w-full text-[13px] font-semibold text-slate-800 bg-slate-50 border border-slate-200 rounded-lg pl-5 pr-2 py-1.5 focus:outline-none focus:border-indigo-400 focus:bg-white transition-colors tabular-nums"
+                    />
+                  </div>
                 </div>
 
                 {/* Contexto BEPS */}
@@ -332,8 +363,8 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
         {/* ── Navegación ── */}
         <div className="flex gap-3">
           {pasoIdx > 0 && (
-            <button onClick={back} className="flex-1 sm:flex-none sm:w-32 min-h-[48px] rounded-2xl border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 font-semibold text-[13.5px] transition-colors">
-              ← Atrás
+            <button onClick={back} className="flex-1 sm:flex-none sm:w-32 min-h-[48px] rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 font-bold text-[14px] tracking-tight transition-colors flex items-center justify-center text-center">
+              <span>← Atrás</span>
             </button>
           )}
 
@@ -342,21 +373,21 @@ export default function SocialTriageForm({ onSubmit, loading }: Props) {
               onClick={next}
               disabled={!canContinue}
               className={cn(
-                "flex-1 min-h-[48px] rounded-2xl font-bold text-[14.5px] tracking-tight transition-all",
+                "flex-1 min-h-[48px] rounded-xl font-bold text-[14px] tracking-tight transition-all flex items-center justify-center text-center",
                 canContinue
                   ? "bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white shadow-lg shadow-indigo-600/25 active:scale-[0.98]"
                   : "bg-slate-100 text-slate-400 cursor-not-allowed"
               )}
             >
-              Continuar →
+              <span>Continuar →</span>
             </button>
           ) : (
             <button
               onClick={handleSubmit}
               disabled={loading}
-              className="flex-1 min-h-[52px] rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-800 hover:from-indigo-500 hover:to-indigo-700 text-white font-bold text-[14.5px] shadow-xl shadow-indigo-900/25 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-center disabled:opacity-70 disabled:cursor-wait"
+              className="flex-1 min-h-[48px] rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-800 hover:from-indigo-500 hover:to-indigo-700 text-white font-bold text-[14px] tracking-tight shadow-xl shadow-indigo-900/25 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-center disabled:opacity-70 disabled:cursor-wait"
             >
-              <MapPinned className="size-5 shrink-0" strokeWidth={2} />
+              <MapPinned className="size-4 shrink-0" strokeWidth={2} />
               <span>Ver mi ruta de derechos</span>
             </button>
           )}

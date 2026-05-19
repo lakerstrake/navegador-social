@@ -7,13 +7,17 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { type TriajeResult, RIESGO_CONFIG } from "@/lib/triajeClient";
+import { openSafe } from "@/components/ExternalLinkBridge";
 
 const BETOWA_URL = "https://betowa.sena.edu.co/";
 
 function openLink(url: string) {
   const isSena = /sena\.edu\.co/i.test(url);
-  window.open(url, "_blank", "noopener,noreferrer");
-  if (isSena) window.open(BETOWA_URL, "_blank", "noopener,noreferrer");
+  if (isSena) {
+    openSafe(url, BETOWA_URL);
+  } else {
+    openSafe(url);
+  }
 }
 
 interface Props {
@@ -206,16 +210,16 @@ export default function RightsMap({ result, onReset, onDeepConsult }: Props) {
         <div className="flex flex-col sm:flex-row gap-2 pt-0.5">
           <button
             onClick={onDeepConsult}
-            className="flex-1 min-h-[44px] rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-800 text-white font-bold text-[13px] shadow-lg shadow-indigo-700/25 hover:from-indigo-500 hover:to-indigo-700 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 text-center"
+            className="flex-1 min-h-[48px] rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-800 text-white font-bold text-[14px] tracking-tight shadow-lg shadow-indigo-700/25 hover:from-indigo-500 hover:to-indigo-700 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-center"
           >
             <MessageSquare className="size-4 shrink-0" strokeWidth={2} />
             <span>Hacer consulta profunda</span>
           </button>
           <button
             onClick={onReset}
-            className="flex-1 sm:flex-none sm:w-44 min-h-[44px] rounded-xl border border-slate-200 text-slate-700 font-semibold text-[13px] hover:bg-slate-50 hover:border-slate-300 transition-colors flex items-center justify-center gap-1 text-center"
+            className="flex-1 sm:flex-none sm:w-44 min-h-[48px] rounded-xl border border-slate-200 text-slate-700 font-bold text-[14px] tracking-tight hover:bg-slate-50 hover:border-slate-300 transition-colors flex items-center justify-center gap-1.5 text-center"
           >
-            <ArrowLeft className="size-3.5 shrink-0" strokeWidth={2.25} />
+            <ArrowLeft className="size-4 shrink-0" strokeWidth={2.25} />
             <span>Nuevo diagnóstico</span>
           </button>
         </div>
